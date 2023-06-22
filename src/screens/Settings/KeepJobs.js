@@ -19,37 +19,30 @@ export default function KeepJobs(props) {
   const JobReducer = useSelector(state => state.JobReducer);
   const ProfileReducer = useSelector(state => state.ProfileReducer);
 
-  {
-    /* useEffect fetching data from reducer */
-  }
-
+  //useEffect fetching data from reducer
   useEffect(() => {
-    if (ProfileReducer?.profileDetails?.userSettings?.jobLifespan) {
-      if (ProfileReducer?.profileDetails?.userSettings?.jobLifespan == 365) {
-        setYear(true);
-        setForever(false);
-        set30Days(false);
-      } else if (
-        ProfileReducer?.profileDetails?.userSettings?.jobLifespan == 0
-      ) {
-        setForever(true);
-        setYear(false);
-        set30Days(false);
-      } else if (ProfileReducer?.profileDetails?.userSettings == null) {
-        set30Days(false);
-        setYear(false);
-        setForever(false);
-      } else {
-        set30Days(true);
-        setYear(false);
-        setForever(false);
-      }
+    if (ProfileReducer?.profileDetails?.userSettings?.jobLifespan === 365) {
+      setYear(true);
+      setForever(false);
+      set30Days(false);
+    } else if (
+      ProfileReducer?.profileDetails?.userSettings?.jobLifespan === 0
+    ) {
+      setForever(true);
+      setYear(false);
+      set30Days(false);
+    } else if (ProfileReducer?.profileDetails?.userSettings == null) {
+      set30Days(false);
+      setYear(false);
+      setForever(false);
+    } else {
+      set30Days(true);
+      setYear(false);
+      setForever(false);
     }
   }, [ProfileReducer?.profileDetails?.userSettings]);
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE
   Status(
     JobReducer.status,
     JOB.KEEP_JOB_REQUEST.type,
@@ -64,9 +57,7 @@ export default function KeepJobs(props) {
     },
   );
 
-  {
-    /* fun for call the API to save the data */
-  }
+  //fun for call the API to save the data
   const saveJobSettings = type => {
     dispatch(keepJobReq({jobLifespan: type}));
   };
@@ -119,7 +110,9 @@ export default function KeepJobs(props) {
           }}>
           <TouchableOpacity
             onPress={() => {
-              set30Days(true), setYear(false), setForever(false);
+              set30Days(true);
+              setYear(false);
+              setForever(false);
               saveJobSettings(30);
             }}
             style={{
@@ -156,7 +149,9 @@ export default function KeepJobs(props) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              set30Days(false), setYear(true), setForever(false);
+              set30Days(false);
+              setYear(true);
+              setForever(false);
               saveJobSettings(365);
             }}
             style={{
@@ -193,7 +188,9 @@ export default function KeepJobs(props) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              set30Days(false), setYear(false), setForever(true);
+              set30Days(false);
+              setYear(false);
+              setForever(true);
               saveJobSettings(0);
             }}
             style={{

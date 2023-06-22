@@ -14,7 +14,6 @@ import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
 
 import TextInput from '../../components/shared/TextInput';
 import Modal from 'react-native-modal';
@@ -27,35 +26,25 @@ export default function AddNewJob(props) {
 
   useEffect(() => {
     dispatch(getJobAreaById(JobReducer?.selectedJobArea?.jobAreaId));
-  }, [JobReducer?.selectedJobArea?.jobAreaId]);
+  }, [JobReducer?.selectedJobArea?.jobAreaId, dispatch]);
 
-  {
-    /*fun for create job area  */
-  }
+  //fun for create job area //
   const createJob = () => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {
-          jobId: JobReducer?.singleJobDetailsReq?.jobId,
-          jobAreaName: jobAreaName,
-        };
+    let obj = {
+      jobId: JobReducer?.singleJobDetailsReq?.jobId,
+      jobAreaName: jobAreaName,
+    };
 
-        if (!jobAreaName) {
-          showErrorAlert('Please enter job area name');
-        } else {
-          setModalVisible(!modalVisible);
-          dispatch(createJobAreaReq(obj));
-          setJobAreaName('');
-        }
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    if (!jobAreaName) {
+      showErrorAlert('Please enter job area name');
+    } else {
+      setModalVisible(!modalVisible);
+      dispatch(createJobAreaReq(obj));
+      setJobAreaName('');
+    }
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     JobReducer.status,
     JOB.CREATE_JOB_AREA_REQUEST.type,
@@ -70,9 +59,7 @@ export default function AddNewJob(props) {
       showErrorAlert(JobReducer?.error?.response?.data);
     },
   );
-  {
-    /*fun for open create job modal */
-  }
+  //fun for open create job modal
   function openCreateJobModal() {
     return (
       <SafeAreaView>
@@ -158,6 +145,7 @@ export default function AddNewJob(props) {
       </SafeAreaView>
     );
   }
+
   return (
     <View style={{flex: 1, backgroundColor: Colors.primaryColor}}>
       <Loader
@@ -242,13 +230,9 @@ export default function AddNewJob(props) {
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => {
-              props.navigation.goBack(),
-                dispatch(
-                  getJobAreaList(JobReducer?.singleJobDetailsReq?.jobId),
-                ),
-                dispatch(
-                  getJobAreaById(JobReducer?.selectedJobArea?.jobAreaId),
-                );
+              props.navigation.goBack();
+              dispatch(getJobAreaList(JobReducer?.singleJobDetailsReq?.jobId));
+              dispatch(getJobAreaById(JobReducer?.selectedJobArea?.jobAreaId));
             }}
             style={{
               width: normalize(20),

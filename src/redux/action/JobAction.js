@@ -51,9 +51,7 @@ export const updateJob = payload => ({
   payload,
 });
 
-{
-  /* JOB AREA */
-}
+//JOB AREA//
 export const createJobAreaReq = payload => ({
   type: JOB.CREATE_JOB_AREA_REQUEST.type,
   payload,
@@ -95,7 +93,3 @@ export const getJobSummary = payload => ({
   type: JOB.JOB_SUMMARY_REQUEST.type,
   payload,
 });
-
-// export const cleanJobData = () => ({
-//   type: JOB.CLEAN_JOB_REDUCER_REQUEST.type,
-// });

@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Text, View, SafeAreaView, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from 'react-native';
 import Modal from 'react-native-modal';
 
 import normalize from '../../utils/Dimen';
@@ -97,10 +104,12 @@ const AddSupplyModal = props => {
 
 AddSupplyModal.propTypes = {
   modalVisible: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 AddSupplyModal.defaultProps = {
   modalVisible: false,
+  closeModal: null,
 };
 
 export default AddSupplyModal;

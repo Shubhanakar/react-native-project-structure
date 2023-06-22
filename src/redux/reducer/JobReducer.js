@@ -21,7 +21,7 @@ const JobReducer = (state = initialState, action) => {
       ...action.data,
       status: JOB[action.type].type,
     };
-  } else if (action.type == 'RESET') {
+  } else if (action.type === 'RESET') {
     return {
       status: '',
       error: '',

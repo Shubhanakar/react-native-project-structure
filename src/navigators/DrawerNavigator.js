@@ -1,14 +1,12 @@
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
 import {
   Image,
-  Linking,
   Platform,
   SafeAreaView,
   Text,
@@ -29,7 +27,7 @@ const Drawer = createDrawerNavigator();
 
 var userName = '';
 
-const DrawerContent = props => {
+const DrawerContent = (props, dispatch) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TouchableOpacity
@@ -39,7 +37,7 @@ const DrawerContent = props => {
           justifyContent: 'center',
           alignSelf: 'flex-end',
           marginRight: 10,
-          marginTop: Platform.OS == 'android' ? normalize(40) : 0,
+          marginTop: Platform.OS === 'android' ? normalize(40) : 0,
         }}
         onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())}>
         <Image
@@ -94,7 +92,7 @@ const DrawerContent = props => {
 const DrawerNavigator = () => {
   const ProfileReducer = useSelector(state => state.ProfileReducer);
 
-  dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   userName = ProfileReducer?.profileDetails?.fullName;
 
@@ -104,12 +102,11 @@ const DrawerNavigator = () => {
 
   return (
     <Drawer.Navigator
-      drawerContent={DrawerContent}
+      drawerContent={DrawerContent(dispatch)}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
         drawerStatusBarAnimation: 'fade',
-        gestureEnabled: true,
         drawerStyle: {
           backgroundColor: Colors.drawerBackgroundColor,
           width: normalize(280),
@@ -127,7 +124,7 @@ const DrawerNavigator = () => {
         component={Jobs}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
-          drawerLabel: ({focused, color}) => (
+          drawerLabel: () => (
             <Text
               style={{
                 fontSize: normalize(14),
@@ -137,7 +134,7 @@ const DrawerNavigator = () => {
               Jobs
             </Text>
           ),
-          drawerIcon: ({focused, size}) => (
+          drawerIcon: () => (
             <Image
               resizeMode="contain"
               source={Icons.jobs}
@@ -152,7 +149,7 @@ const DrawerNavigator = () => {
         component={Profile}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
-          drawerLabel: ({focused, color}) => (
+          drawerLabel: () => (
             <Text
               style={{
                 fontSize: normalize(14),
@@ -162,7 +159,7 @@ const DrawerNavigator = () => {
               Profile
             </Text>
           ),
-          drawerIcon: ({focused, size}) => (
+          drawerIcon: () => (
             <Image
               resizeMode="contain"
               source={Icons.profile}
@@ -177,7 +174,7 @@ const DrawerNavigator = () => {
         component={Settings}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
-          drawerLabel: ({focused, color}) => (
+          drawerLabel: () => (
             <Text
               style={{
                 fontSize: normalize(14),
@@ -188,7 +185,7 @@ const DrawerNavigator = () => {
             </Text>
           ),
           title: 'Settings',
-          drawerIcon: ({focused, size}) => (
+          drawerIcon: () => (
             <Image
               resizeMode="contain"
               source={Icons.settings}

@@ -1,5 +1,5 @@
 import {takeLatest, call, put} from 'redux-saga/effects';
-import {TOKEN, PROFILE} from '../redux/store/TypeConstants';
+import {TOKEN} from '../redux/store/TypeConstants';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import constants from '../constants/index';
 
@@ -23,7 +23,7 @@ function* getTokenAction() {
   try {
     let token = yield call(EncryptedStorage.getItem, constants.TOKEN);
     console.log('Getting Token from storage.', token);
-    if (token != null && token != '') {
+    if (token != null && token !== '') {
       console.log('Getting Token from storage.', token);
       token = JSON.parse(token);
       yield put({

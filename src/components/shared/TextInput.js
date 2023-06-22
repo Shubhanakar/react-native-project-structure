@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {View, Image, TextInput, Platform, TouchableOpacity} from 'react-native';
-import {Colors, Icons, Fonts} from '../../theme/theme';
+import React from 'react';
+import {View, Image, TextInput, Platform} from 'react-native';
+import {Colors} from '../../theme/theme';
 import normalise from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
 export default function TextInputComponent(props) {
-  const [visible, setVisible] = useState(false);
-
   function onChangeText(text) {
     if (props.onChangeText) {
       props.onChangeText(text);
@@ -16,12 +14,6 @@ export default function TextInputComponent(props) {
   function onFocus() {
     if (props.onFocus) {
       props.onFocus();
-    }
-  }
-
-  function onBlur() {
-    if (props.onBlur) {
-      props.onBlur();
     }
   }
 
@@ -85,7 +77,6 @@ export default function TextInputComponent(props) {
           maxLength={props.maxLength}
           selectTextOnFocus={props.selectTextOnFocus}
           textAlignVertical={props.textAlignVertical}
-          secureTextEntry={visible ? false : props.isSecure}
           onFocus={() => {
             onFocus();
           }}

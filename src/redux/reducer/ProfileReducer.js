@@ -21,7 +21,7 @@ const ProfileReducer = (state = initialState, action) => {
       ...action.data,
       status: PROFILE[action.type].type,
     };
-  } else if (action.type == 'RESET') {
+  } else if (action.type === 'RESET') {
     return {
       status: '',
       error: '',

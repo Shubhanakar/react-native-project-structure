@@ -15,14 +15,12 @@ export default function Profile(props) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+  const [stateLocation, setState] = useState('');
   const [countryCode, setCountryCode] = useState('');
 
   const ProfileReducer = useSelector(state => state.ProfileReducer); // collecting user profile data from ProfileReducer
 
-  {
-    /* useEffect use for set profile data to the state variable */
-  }
+  //useEffect use for set profile data to the state variable
 
   useEffect(() => {
     if (ProfileReducer?.profileDetails) {
@@ -31,7 +29,7 @@ export default function Profile(props) {
       setCompanyName(ProfileReducer.profileDetails.companyName);
       setPhoneNumber(ProfileReducer.profileDetails.phoneNumber);
       setDateOfBirth(ProfileReducer.profileDetails.dateOfBirth);
-      setState(ProfileReducer.profileDetails.state);
+      setState(ProfileReducer.profileDetails.stateLocation);
       setCity(ProfileReducer.profileDetails.city);
       setCountryCode(ProfileReducer.profileDetails.phoneCountryCode);
     }
@@ -248,7 +246,7 @@ export default function Profile(props) {
                 }}>
                 {city ? city : 'NA'}
                 {', '}
-                {state ? state : 'NA'}
+                {stateLocation ? stateLocation : 'NA'}
               </Text>
             </View>
           </View>

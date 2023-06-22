@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, View, TouchableOpacity, Image, Platform} from 'react-native';
 
 import {Fonts, Icons, Colors} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
@@ -7,24 +7,18 @@ import MyStatusBar from '../../utils/StatusBar';
 import onFacebookLogin from '../../utils/Facebook';
 import Loader from '../../utils/Loader';
 import {useDispatch, useSelector} from 'react-redux';
-import {getSignIn, getSignUp} from '../../redux/action/AuthAction';
-import isInternetConnected from '../../utils/NetInfo';
+import {getSignIn} from '../../redux/action/AuthAction';
+
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
 import {AUTH} from '../../redux/store/TypeConstants';
-import GoogleLogin from '../../utils/GoogleLogin';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 export default function Login(props) {
   const dispatch = useDispatch();
   const AuthReducer = useSelector(state => state.AuthReducer);
 
-  {
-    /* useEffect for initiate Google signin configure */
-  }
+  //useEffect for initiate Google signin configure//
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -45,50 +39,32 @@ export default function Login(props) {
     });
   }, []);
 
-  {
-    /* Making an API request from facebook API then make a server request with facebook API response */
-  }
+  //Making an API request from facebook API then make a server request with facebook API response
 
   const getUserDatafromFacebook = () => {
-    isInternetConnected()
-      .then(() => {
-        onFacebookLogin()
-          .then(res => {
-            let obj = {};
-            obj.providerName = 'Facebook';
-            obj.providerId = res.id;
-            dispatch(getSignIn(obj));
-          })
-          .catch(err => {});
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
-  };
-
-  {
-    /* Making an API request from google API then make a server request with google API response */
-  }
-
-  const getUserDatafromGoogle = () => {
-    isInternetConnected()
-      .then(() => {
-        // const userResp = GoogleLogin();
-        // console.log(userResp, 'resp');
+    onFacebookLogin()
+      .then(res => {
         let obj = {};
-        obj.providerName = 'Google';
-        obj.providerId = 1234567890;
-
+        obj.providerName = 'Facebook';
+        obj.providerId = res.id;
         dispatch(getSignIn(obj));
       })
-      .catch(err => {
-        showAlerts('Please check your internet connection');
-      });
+      .catch(() => {});
   };
 
-  {
-    /* function used for after successful login signing out from the google account login */
-  }
+  //Making an API request from google API then make a server request with google API response
+
+  const getUserDatafromGoogle = () => {
+    // const userResp = GoogleLogin();
+    // console.log(userResp, 'resp');
+    let obj = {};
+    obj.providerName = 'Google';
+    obj.providerId = 1234567890;
+
+    dispatch(getSignIn(obj));
+  };
+
+  //function used for after successful login signing out from the google account login
 
   const signOutGoogle = async () => {
     try {
@@ -98,9 +74,7 @@ export default function Login(props) {
     }
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE
 
   Status(
     AuthReducer.status,

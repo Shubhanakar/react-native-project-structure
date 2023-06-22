@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import TextInput from '../../components/shared/TextInput';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import isInternetConnected from '../../utils/NetInfo';
+
 import {updateJob, getSingleJobDetails} from '../../redux/action/JobAction';
 import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
@@ -36,70 +36,67 @@ export default function EditJob(props) {
     lotNumberOrSubDivision: '',
   };
 
-  {
-    /* fun for hide date picker */
-  }
+  //fun for hide date picker
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  {
-    /* useEffect for getting the job data  */
-  }
+  //useEffect for getting the job data
 
   useEffect(() => {
-    setFieldValue('jobname', JobReducer.singleJobDetailsReq.jobname);
-    setFieldValue(
+    formikRef?.current?.setFieldValue(
+      'jobname',
+      JobReducer.singleJobDetailsReq.jobname,
+    );
+    formikRef?.current?.setFieldValue(
       'emailAddress',
       JobReducer.singleJobDetailsReq.contactInformation.emailAddress,
     );
-    setFieldValue(
+    formikRef?.current?.setFieldValue(
       'phoneNumber',
       JobReducer.singleJobDetailsReq.contactInformation.phoneNumber,
     );
-    setFieldValue(
+    formikRef?.current?.setFieldValue(
       'contractorName',
       JobReducer.singleJobDetailsReq.contractorName,
     );
-    setFieldValue('location', JobReducer.singleJobDetailsReq.location);
-    setFieldValue(
+    formikRef?.current?.setFieldValue(
+      'location',
+      JobReducer.singleJobDetailsReq.location,
+    );
+    formikRef?.current?.setFieldValue(
       'lotNumberOrSubDivision',
       JobReducer.singleJobDetailsReq.lotNumberOrSubDivision,
     );
-    setFieldValue(
+    formikRef?.current?.setFieldValue(
       'countryCode',
       JobReducer.singleJobDetailsReq.contactInformation.phoneCountryCode,
     );
-    setFieldValue('date', JobReducer.singleJobDetailsReq.date);
+    formikRef?.current?.setFieldValue(
+      'date',
+      JobReducer.singleJobDetailsReq.date,
+    );
   }, [JobReducer?.singleJobDetailsReq]);
 
   const editJobDetails = data => {
-    isInternetConnected()
-      .then(() => {
-        let contactInfo = {
-          phoneNumber: data.phoneNumber || null,
-          emailAddress: data.email || null,
-        };
+    let contactInfo = {
+      phoneNumber: data.phoneNumber || null,
+      emailAddress: data.email || null,
+    };
 
-        let obj = {
-          jobName: data.jobName,
-          contractorName: data.contractorName || null,
-          contactInfo: contactInfo,
-          location: data.location || null,
-          lotNumberOrSubDivision: data.lotNumberOrSubDivision || null,
-          date: data.date || null,
-        };
+    let obj = {
+      jobName: data.jobName,
+      contractorName: data.contractorName || null,
+      contactInfo: contactInfo,
+      location: data.location || null,
+      lotNumberOrSubDivision: data.lotNumberOrSubDivision || null,
+      date: data.date || null,
+    };
 
-        dispatch(updateJob(obj));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(updateJob(obj));
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE
 
   Status(
     JobReducer.status,
@@ -284,7 +281,6 @@ export default function EditJob(props) {
                   width: '90%',
                   height: normalize(38),
                   alignSelf: 'center',
-                  justifyContent: 'center',
                   borderWidth: 1,
                   marginTop: normalize(5),
                   borderColor: '#CCCCCC',
@@ -347,8 +343,6 @@ export default function EditJob(props) {
                     height: normalize(38),
                   }}
                   onChangeText={(masked, unmasked) => {
-                    setPhoneNumber(masked); // you can use the unmasked value as well
-
                     handleChange('phoneNumber');
                     // assuming you typed "9" all the way:
                     console.log(masked); // (99) 99999-9999

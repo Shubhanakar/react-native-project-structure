@@ -1,13 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  FlatList,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
 
 import {Fonts, Icons, Colors} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
@@ -15,13 +7,11 @@ import MyStatusBar from '../../utils/StatusBar';
 import Button from '../../components/shared/Button';
 import TextInput from '../../components/shared/TextInput';
 import {useDispatch, useSelector} from 'react-redux';
-import Modal from 'react-native-modal';
 import Loader from '../../utils/Loader';
 import {PROFILE} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import isInternetConnected from '../../utils/NetInfo';
 import {updateProfile, getProfile} from '../../redux/action/ProfileAction';
 import moment from 'moment';
 import MaskInput, {Masks} from 'react-native-mask-input';
@@ -30,10 +20,10 @@ import EditProfileSchema from '../../schema/EditProfileSchema';
 import SelectCountryModal from '../../components/shared/SelectCountryModal';
 import DeleteConfirmationModal from '../../components/shared/DeleteAccountModal';
 export default function EditProfile(props) {
-  const [unmasked, setUnmasked] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCountryModalVisible, setisCountryModalVisible] = useState(false);
 
   const formikRef = useRef();
 
@@ -51,9 +41,7 @@ export default function EditProfile(props) {
     dateOfBirth: '',
   };
 
-  {
-    /* useEffect for getting data from reducer and set data */
-  }
+  //useEffect for getting data from reducer and set data//
 
   useEffect(() => {
     const {setFieldValue} = formikRef.current;
@@ -68,56 +56,27 @@ export default function EditProfile(props) {
     setFieldValue('dateOfBirth', ProfileReducer.profileDetails.dateOfBirth);
   }, [ProfileReducer?.profileDetails]);
 
-  {
-    /*fun to close the date picker*/
-  }
+  //fun to close the date picker//
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  {
-    /* fun for update user data */
-  }
-
+  //fun for update user data//
   const updateUserData = values => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {};
+    let obj = {};
 
-        if (!fullName) {
-          showErrorAlert('Please enter a full name');
-        } else if (!dateOfBirth) {
-          showErrorAlert('Please enter a date of birth');
-        } else if (
-          dateOfBirth &&
-          !moment(dateOfBirth).isBefore(moment().subtract(18, 'years'))
-        ) {
-          showErrorAlert('Age must be 18 years old');
-        } else if (unmasked !== '' && unmasked.trim().length < 10) {
-          showErrorAlert('Please enter valid phone number');
-        } else if (phoneNumber && !countryCode) {
-          showErrorAlert('Please select country code');
-        } else {
-          obj.fullName = fullName;
-          obj.companyName = companyName ? companyName : null;
-          obj.phoneCountryCode =
-            countryCode && phoneNumber ? countryCode : null;
-          obj.phoneNumber = countryCode && phoneNumber ? phoneNumber : null;
-          obj.dateOfBirth = dateOfBirth;
-          obj.city = city ? city : null;
-          obj.state = state ? state : null;
+    obj.fullName = values.fullName;
+    obj.companyName = values.companyName || null;
+    obj.phoneCountryCode = values.phoneCountryCode || null;
+    obj.phoneNumber = values.phoneNumber || null;
+    obj.dateOfBirth = values.dateOfBirth;
+    obj.city = values.city || null;
+    obj.state = values.state || null;
 
-          dispatch(updateProfile(obj));
-        }
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(updateProfile(obj));
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     ProfileReducer.status,
     PROFILE.UPDATE_PROFILE_REQUEST.type,
@@ -330,8 +289,6 @@ export default function EditProfile(props) {
                     marginLeft: 15,
                   }}
                   onChangeText={(masked, unmasked) => {
-                    setPhoneNumber(masked);
-                    setUnmasked(unmasked);
                     handleChange('phoneNumber');
                     console.log(masked); // (99) 99999-9999
                     console.log(unmasked); // 99999999999
@@ -358,7 +315,6 @@ export default function EditProfile(props) {
                   borderWidth: 1,
                   marginTop: normalize(5),
                   borderColor: '#CCCCCC',
-                  justifyContent: 'space-between',
                   flexDirection: 'row',
                 }}>
                 <Text
@@ -421,8 +377,8 @@ export default function EditProfile(props) {
                   placeholder={'State'}
                   height={normalize(38)}
                   placeholderTextColor={'#CCCCCC'}
-                  value={state}
-                  onChangeText={data => setState(data)}
+                  value={values.state}
+                  onChangeText={handleChange('state')}
                 />
               </View>
 

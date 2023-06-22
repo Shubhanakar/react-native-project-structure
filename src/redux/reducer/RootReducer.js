@@ -3,7 +3,6 @@ import TokenReducer from './TokenReducer';
 import AuthReducer from './AuthReducer';
 import ProfileReducer from './ProfileReducer';
 import JobReducer from './JobReducer';
-import SettingsReducer from './SettingsReducer';
 import AddSupplyReducer from './AddSupplyReducer';
 
 const allReducers = combineReducers({
@@ -11,10 +10,11 @@ const allReducers = combineReducers({
   AuthReducer: AuthReducer,
   ProfileReducer: ProfileReducer,
   JobReducer: JobReducer,
-  SettingsReducer: SettingsReducer,
   AddSupplyReducer: AddSupplyReducer,
 });
 
-export default rootReducer = (state, action) => {
+const rootReducer = (state, action) => {
   return allReducers(state, action);
 };
+
+export default rootReducer;

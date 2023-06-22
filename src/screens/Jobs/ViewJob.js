@@ -1,49 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
 import Button from '../../components/shared/Button';
 import normalize from '../../utils/Dimen';
 import {Fonts, Colors, Icons} from '../../theme/theme';
 import MyStatusBar from '../../utils/StatusBar';
 import {useDispatch, useSelector} from 'react-redux';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 import {deleteJobReq} from '../../redux/action/JobAction';
 import Status from '../../utils/Status';
-import {JOB, PROFILE} from '../../redux/store/TypeConstants';
+import {JOB} from '../../redux/store/TypeConstants';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
 import DeleteJobModal from '../../components/shared/DeleteJobModal';
 export default function ViewJob(props) {
   const dispatch = useDispatch();
   const JobReducer = useSelector(state => state.JobReducer);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  {
-    /* fun to delete job  */
-  }
+  //fun to delete job//
   const deleteJob = () => {
-    isInternetConnected()
-      .then(() => {
-        dispatch(deleteJobReq(JobReducer?.singleJobDetailsReq?.jobId));
-        setDeleteModalVisible(false);
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(deleteJobReq(JobReducer?.singleJobDetailsReq?.jobId));
+    setDeleteModalVisible(false);
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
 
   Status(
     JobReducer.status,

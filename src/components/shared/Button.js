@@ -5,12 +5,6 @@ import normalise from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
 export default function Button(props) {
-  function onPress() {
-    if (props.onPress) {
-      props.onPress();
-    }
-  }
-
   return (
     <TouchableOpacity
       disabled={props.disabled}

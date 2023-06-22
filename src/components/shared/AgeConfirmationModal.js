@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -89,10 +89,12 @@ const AgeConfirmationModal = props => {
 
 AgeConfirmationModal.propTypes = {
   modalVisible: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 AgeConfirmationModal.defaultProps = {
   modalVisible: false,
+  closeModal: null,
 };
 
 export default AgeConfirmationModal;

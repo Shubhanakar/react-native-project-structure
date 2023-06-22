@@ -1,6 +1,6 @@
-import React, {useRef, useEffect} from 'react';
-import {Text, Image, TouchableOpacity, FlatList, View} from 'react-native';
-import {Colors, Fonts, Icons} from '../../theme/theme';
+import React, {useRef} from 'react';
+import {Text, TouchableOpacity, FlatList, View} from 'react-native';
+import {Colors, Fonts} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 import {Swipeable} from 'react-native-gesture-handler';

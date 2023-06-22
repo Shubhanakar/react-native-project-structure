@@ -1,6 +1,6 @@
-import React, {useRef, useEffect} from 'react';
-import {Text, Image, TouchableOpacity, FlatList, View} from 'react-native';
-import {Colors, Fonts, Icons} from '../../theme/theme';
+import React from 'react';
+import {Text, TouchableOpacity, FlatList, View} from 'react-native';
+import {Colors, Fonts} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
@@ -46,7 +46,7 @@ export default function RegularSheetList(props) {
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity
-              disabled={item.quantity == 0}
+              disabled={item.quantity === 0}
               onPress={() => onPress(1, index, 'delete')}
               style={{
                 height: '100%',

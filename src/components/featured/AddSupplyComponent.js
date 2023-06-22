@@ -1,16 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   TextInput,
   ScrollView,
 } from 'react-native';
 
 import normalize from '../../utils/Dimen';
-import {icons, Colors, Fonts} from '../../theme/theme';
+import {Colors, Fonts} from '../../theme/theme';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -25,20 +23,19 @@ export default function AddSupplyComponent({index, title, quantity}) {
   const [searchInput, setSearchInput] = useState(title);
   const dispatch = useDispatch();
 
-  const AddSupplyReducer = useSelector(state => state.AddSupplyReducer);
   const supplies = useSelector(
     state => state.JobReducer?.supplierList?.supplies,
   );
 
-  const sendDataToParent = (supplyId, title) => {
+  const sendDataToParent = (supplyId, text) => {
     const payload = {supplyId, title, quantity};
     dispatch(updateSupplyData({payload, index}));
-    setSearchInput(title);
+    setSearchInput(text);
   };
 
   const searchFilterFunction = text => {
     setSearchInput(text);
-    if (!text !== '') {
+    if (text.length > 0) {
       setOpen(true);
       const newData = supplies.filter(function (item) {
         const itemData = item.title
@@ -86,35 +83,6 @@ export default function AddSupplyComponent({index, title, quantity}) {
               color: Colors.white,
             }}
           />
-          {/* <TextInputComponent
-        height={46}
-        width={'44%'}
-        alignSelf={'center'}
-        placeholder={'Supply Name'}
-        placeholderTextColor={'#CCCCCC'}
-        borderWidth={0}
-        borderEndWidth={0}
-        value={supplyName}
-        onChangeText={data => onChangeText(data)}
-      /> */}
-
-          {/* <View
-      style={{
-        height: '100%',
-        width: normalize(80),
-        justifyContent: 'center',
-      }}>
-      <Text
-        numberOfLines={1}
-        ellipsizeMode="tail"
-        style={{
-          alignSelf: 'center',
-          justifyContent: 'center',
-          color: '#CCCCCC',
-        }}>
-        {item?.title || item?.supplyTitle}
-      </Text>
-    </View> */}
 
           <TouchableOpacity
             disabled={quantity <= 0}

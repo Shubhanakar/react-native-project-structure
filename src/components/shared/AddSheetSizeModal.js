@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  ScrollView,
-  FlatList,
   TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -26,9 +24,7 @@ const AddSheetSizeModal = props => {
 
   const JobReducer = useSelector(state => state.JobReducer);
 
-  {
-    /* useEffect to get sheet types from JobReducer.shteeType reducer */
-  }
+  //useEffect to get sheet types from JobReducer.shteeType reducer//
   useEffect(() => {
     if (JobReducer?.shteeType?.sheet_types?.length > 0) {
       setItems(JobReducer?.shteeType?.sheet_types);
@@ -40,15 +36,13 @@ const AddSheetSizeModal = props => {
       let obj = {
         selectedValue: value,
         title: title,
-        sqFeet: parseInt(sqFeet),
+        sqFeet: parseInt(sqFeet, 10),
         lenght: parseFloat(lenght),
       };
       props.createSheetSize(obj);
     }
   }
-  {
-    /* fun to calculate sq feet for create sheet  */
-  }
+  //fun to calculate sq feet for create sheet//
   const sqCalculateArea = data => {
     setLenght(data);
 
@@ -59,32 +53,15 @@ const AddSheetSizeModal = props => {
     if (!value) {
       showErrorAlert('Please select a type first');
     } else if (value) {
-      if (value == 'DryWallSheets' && data) {
-        let sqCalculate = parseInt(data) * 4;
+      if (value === 'DryWallSheets' && data) {
+        let sqCalculate = parseInt(data, 10) * 4;
 
         setSqFeet(sqCalculate.toString());
       } else if (value === 'FiftyFourInchSheets' && data) {
-        let sqCalculate = parseInt(data) * 4.5;
+        let sqCalculate = parseInt(data, 10) * 4.5;
 
         setSqFeet(sqCalculate.toString());
       }
-    }
-  };
-
-  {
-    /* fun for calculate sq ft depend on dropdown value change */
-  }
-
-  const calculateSqFtWithSelectedType = data => {
-    if (data == 'OtherSheets') {
-      setOtherSize(''), setDefaultSize('');
-    } else if (data == 'DryWallSheets' && defaultSize) {
-      let sqCalculate = parseInt(defaultSize) * 4;
-
-      setOtherSize(sqCalculate.toString());
-    } else if (data == 'FiftyFourInchSheets' && defaultSize) {
-      let sqCalculate = parseInt(defaultSize) * 4.5;
-      setOtherSize(sqCalculate.toString());
     }
   };
 
@@ -109,7 +86,8 @@ const AddSheetSizeModal = props => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              props.closeModal(), setLenght('');
+              props.closeModal();
+              setLenght('');
               setSqFeet('');
               setValue('');
             }}>
@@ -250,7 +228,7 @@ const AddSheetSizeModal = props => {
                 keyboardType={'numeric'}
                 inputTextColor={Colors.black}
                 width={'70%'}
-                onChangeText={data => setSqFeet(parseInt(data))}
+                onChangeText={data => setSqFeet(parseInt(data, 10))}
               />
             )}
           </View>
@@ -294,6 +272,7 @@ AddSheetSizeModal.propTypes = {
   modalVisible: PropTypes.bool,
   onChangeText: PropTypes.func,
   value: PropTypes.any,
+  closeModal: PropTypes.func,
 };
 
 AddSheetSizeModal.defaultProps = {
@@ -302,6 +281,7 @@ AddSheetSizeModal.defaultProps = {
   modalVisible: false,
   onChangeText: null,
   value: null,
+  closeModal: null,
 };
 
 export default AddSheetSizeModal;

@@ -13,13 +13,11 @@ import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
 import MaskInput, {Masks} from 'react-native-mask-input';
 import {Formik} from 'formik';
 import AddJobSchema from '../../schema/AddJobSchema';
 
 export default function AddJob(props) {
-  const [unmasked, setUnmasked] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const formikRef = useRef();
   const dispatch = useDispatch();
@@ -35,43 +33,31 @@ export default function AddJob(props) {
     date: '',
   };
 
-  {
-    /* fun for hide date picker */
-  }
+  //fun for hide date picker//
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-  {
-    /* fun for API call for save job data */
-  }
+  //fun for API call for save job data//
   const addJob = data => {
-    isInternetConnected()
-      .then(() => {
-        let contactInfo = {
-          phoneNumber: data.phoneNumber ? data.phoneNumber : null,
-          emailAddress: data.email ? data.email : null,
-        };
+    let contactInfo = {
+      phoneNumber: data.phoneNumber ? data.phoneNumber : null,
+      emailAddress: data.email ? data.email : null,
+    };
 
-        let obj = {
-          jobName: data.jobName,
-          contractorName: data.contractorName ? data.contractorName : null,
-          contactInfo: contactInfo,
-          location: data.location ? data.location : null,
-          lotNumberOrSubDivision: data.lotNumberOrSubDivision
-            ? data.lotNumberOrSubDivision
-            : null,
-          date: data.date ? data.date : null,
-        };
+    let obj = {
+      jobName: data.jobName,
+      contractorName: data.contractorName ? data.contractorName : null,
+      contactInfo: contactInfo,
+      location: data.location ? data.location : null,
+      lotNumberOrSubDivision: data.lotNumberOrSubDivision
+        ? data.lotNumberOrSubDivision
+        : null,
+      date: data.date ? data.date : null,
+    };
 
-        dispatch(createJob(obj));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(createJob(obj));
   };
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     JobReducer.status,
     JOB.CREATE_JOB_REQUEST.type,
@@ -261,7 +247,6 @@ export default function AddJob(props) {
                     width: '90%',
                     height: normalize(38),
                     alignSelf: 'center',
-                    justifyContent: 'center',
                     borderWidth: 1,
                     marginTop: normalize(5),
                     borderColor: '#CCCCCC',
@@ -301,7 +286,7 @@ export default function AddJob(props) {
                   </Text>
 
                   <MaskInput
-                    value={phoneNumber}
+                    value={values.phoneNumber}
                     placeholder="(801) 555 - 1234"
                     placeholderTextColor={'#CCCCCC'}
                     keyboardType="numeric"
@@ -317,8 +302,7 @@ export default function AddJob(props) {
                       height: normalize(38),
                     }}
                     onChangeText={(masked, unmasked) => {
-                      setPhoneNumber(masked); // you can use the unmasked value as well
-                      setUnmasked(unmasked);
+                      handleChange('phoneNumber');
 
                       console.log(masked); // (99) 99999-9999
                       console.log(unmasked); // 99999999999
@@ -332,8 +316,8 @@ export default function AddJob(props) {
                     placeholder={'email@example.com'}
                     placeholderTextColor={'#CCCCCC'}
                     height={normalize(38)}
-                    value={email}
-                    onChangeText={data => setEmail(data)}
+                    value={values.email}
+                    onChangeText={handleChange('email')}
                     borderColor={'#CCCCCC'}
                   />
                 </View>

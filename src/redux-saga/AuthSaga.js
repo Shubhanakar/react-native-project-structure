@@ -2,7 +2,7 @@ import {put, call, takeLatest} from 'redux-saga/effects';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import constants from '../constants/index';
 import {AUTH, TOKEN} from '../redux/store/TypeConstants';
-import {GET, POST, getToken} from './setup/method';
+import {POST, getToken} from './setup/method';
 
 function* getSignin(action) {
   try {

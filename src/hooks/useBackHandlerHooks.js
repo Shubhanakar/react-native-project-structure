@@ -1,10 +1,11 @@
-import React from 'react';
-import {BackHandler} from 'react-native';
+import {BackHandler, Platform} from 'react-native';
 import showErrorAlert from '../utils/Toast';
 
 let currentCount = 0;
 export const useDoubleBackPressExit = () => {
-  if (Platform.OS === 'ios') return;
+  if (Platform.OS === 'ios') {
+    return;
+  }
   const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
     if (currentCount === 1) {
       BackHandler.exitApp();

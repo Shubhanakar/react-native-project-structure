@@ -25,9 +25,7 @@ export default function JobSummary(props) {
 
   const JobReducer = useSelector(state => state.JobReducer);
 
-  {
-    /* fun to share summary via email */
-  }
+  //fun to share summary via email//
 
   const shareViaEmail = () => {
     const to = [''];
@@ -37,9 +35,7 @@ export default function JobSummary(props) {
       checkCanOpen: false,
     }).catch(console.error);
   };
-  {
-    /* fun to share summary via text message */
-  }
+  //fun to share summary via text message/
   const shareViaTextMessage = () => {
     SendSMS.send(
       {
@@ -61,9 +57,7 @@ export default function JobSummary(props) {
     );
   };
 
-  {
-    /* fun to open share modal */
-  }
+  //fun to open share modal//
   function openModal() {
     return (
       <SafeAreaView>
@@ -87,7 +81,8 @@ export default function JobSummary(props) {
             }}>
             <TouchableOpacity
               onPress={() => {
-                shareViaTextMessage(), setModalVisible(false);
+                shareViaTextMessage();
+                setModalVisible(false);
               }}
               style={{
                 borderColor: '#B4B4B4',
@@ -107,7 +102,8 @@ export default function JobSummary(props) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                shareViaEmail(), setModalVisible(!modalVisible);
+                shareViaEmail();
+                setModalVisible(!modalVisible);
               }}
               style={{
                 borderColor: '#B4B4B4',
@@ -154,9 +150,7 @@ export default function JobSummary(props) {
     );
   }
 
-  {
-    /* fun to filter category in to different array */
-  }
+  //fun to filter category in to different array//
 
   function makeSheetArray(sheets) {
     let mySheets = {
@@ -261,7 +255,7 @@ export default function JobSummary(props) {
             style={{
               width: '100%',
               height: normalize(45),
-              backgroundColor: selectedIndex == 1 ? '#E2E8F34A' : null,
+              backgroundColor: selectedIndex === 1 ? '#E2E8F34A' : null,
               flex: 0.5,
               borderTopLeftRadius: normalize(10),
               borderTopRightRadius: normalize(10),
@@ -274,7 +268,7 @@ export default function JobSummary(props) {
             <Text
               style={{
                 fontSize: normalize(15),
-                color: selectedIndex == 1 ? '#C1C1C1' : Colors.white,
+                color: selectedIndex === 1 ? '#C1C1C1' : Colors.white,
                 fontFamily: Fonts.DMSans_Bold,
                 alignSelf: 'center',
               }}>
@@ -287,7 +281,7 @@ export default function JobSummary(props) {
             style={{
               width: '100%',
               height: normalize(45),
-              backgroundColor: selectedIndex == 0 ? '#E2E8F34A' : null,
+              backgroundColor: selectedIndex === 0 ? '#E2E8F34A' : null,
               flex: 0.5,
               borderTopLeftRadius: normalize(10),
               borderTopRightRadius: normalize(10),
@@ -300,7 +294,7 @@ export default function JobSummary(props) {
             <Text
               style={{
                 fontSize: normalize(15),
-                color: selectedIndex == 0 ? '#C1C1C1' : Colors.white,
+                color: selectedIndex === 0 ? '#C1C1C1' : Colors.white,
                 fontFamily: Fonts.DMSans_Bold,
                 alignSelf: 'center',
               }}>
@@ -316,7 +310,7 @@ export default function JobSummary(props) {
                   <View
                     style={{
                       flexDirection: 'row',
-                      marginTop: index == 0 ? normalize(15) : normalize(40),
+                      marginTop: index === 0 ? normalize(15) : normalize(40),
                     }}
                     key={index}>
                     <Text
@@ -367,7 +361,7 @@ export default function JobSummary(props) {
                   />
 
                   {item.supplies.length > 0 &&
-                    item.supplies.map(item => {
+                    item.supplies.map(item2 => {
                       return (
                         <View>
                           <Text
@@ -395,7 +389,7 @@ export default function JobSummary(props) {
                                 marginLeft: normalize(30),
                                 width: normalize(80),
                               }}>
-                              {item.supplyTitle}
+                              {item2.supplyTitle}
                             </Text>
                             <View
                               style={{
@@ -416,7 +410,7 @@ export default function JobSummary(props) {
                                 marginTop: normalize(10),
                                 marginLeft: normalize(25),
                               }}>
-                              {item.quantity} supply
+                              {item2.quantity} supply
                             </Text>
                           </View>
                         </View>

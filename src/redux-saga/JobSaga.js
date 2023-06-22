@@ -12,7 +12,7 @@ function* createJob(action) {
     );
     if (response?.message.includes('successfully')) {
       try {
-        let jobListResponse = yield call(GET, `job/get-jobs`, yield getToken());
+        let jobListResponse = yield call(GET, 'job/get-jobs', yield getToken());
         yield put({
           type: JOB.JOB_LIST_SUCCESS.type,
           data: {
@@ -50,7 +50,7 @@ function* updateJob(action) {
     );
     if (response?.message.includes('successfully')) {
       try {
-        let jobListResponse = yield call(GET, `job/get-jobs`, yield getToken());
+        let jobListResponse = yield call(GET, 'job/get-jobs', yield getToken());
         yield put({
           type: JOB.JOB_LIST_SUCCESS.type,
           data: {
@@ -89,7 +89,7 @@ function* deleteJob(action) {
 
     if (response?.message.includes('successfully')) {
       try {
-        let jobListResponse = yield call(GET, `job/get-jobs`, yield getToken());
+        let jobListResponse = yield call(GET, 'job/get-jobs', yield getToken());
         yield put({
           type: JOB.JOB_LIST_SUCCESS.type,
           data: {
@@ -131,7 +131,7 @@ function* createSheet(action) {
       try {
         let sheetResponse = yield call(
           GET,
-          `/sheet/get-sheets`,
+          '/sheet/get-sheets',
           yield getToken(),
         );
         yield put({
@@ -174,7 +174,7 @@ function* deleteSheet(action) {
       try {
         let sheetResponse = yield call(
           GET,
-          `sheet/get-sheets`,
+          'sheet/get-sheets',
           yield getToken(),
         );
         yield put({
@@ -206,7 +206,12 @@ function* deleteSheet(action) {
 
 function* updateSheet(action) {
   try {
-    let response = yield call(POST, 'client-rgstr', action.payload, '');
+    let response = yield call(
+      POST,
+      `sheet/update-sheet/${action.payload}`,
+      action.payload,
+      '',
+    );
     yield put({
       type: JOB.EDIT_SHEET_SUCCESS.type,
       data: {
@@ -233,7 +238,7 @@ function* createSupplier(action) {
       try {
         let sheetSupplierResponse = yield call(
           GET,
-          `supply/get-supplies`,
+          'supply/get-supplies',
           yield getToken(),
         );
         yield put({
@@ -275,7 +280,7 @@ function* deleteSupplier(action) {
       try {
         let sheetSupplierResponse = yield call(
           GET,
-          `supply/get-supplies`,
+          'supply/get-supplies',
           yield getToken(),
         );
         yield put({
@@ -324,7 +329,7 @@ function* editSupplier(action) {
 
 function* getJobList() {
   try {
-    let response = yield call(GET, `job/get-jobs`, yield getToken());
+    let response = yield call(GET, 'job/get-jobs', yield getToken());
 
     yield put({
       type: JOB.JOB_LIST_SUCCESS.type,
@@ -390,11 +395,11 @@ function* searchJobs(action) {
 
 function* getSheetType() {
   try {
-    let response = yield call(GET, `sheet/get-sheet-types`, yield getToken());
-    let sheetResponse = yield call(GET, `/sheet/get-sheets`, yield getToken());
+    let response = yield call(GET, 'sheet/get-sheet-types', yield getToken());
+    let sheetResponse = yield call(GET, '/sheet/get-sheets', yield getToken());
     let sheetSupplierResponse = yield call(
       GET,
-      `supply/get-supplies`,
+      'supply/get-supplies',
       yield getToken(),
     );
 
@@ -460,7 +465,7 @@ function* keepJobsSettings(action) {
   try {
     let response = yield call(
       PATCH,
-      `setting/set-job-lifespan`,
+      'setting/set-job-lifespan',
       action.payload,
       yield getToken(),
     );
@@ -532,23 +537,6 @@ function* createJobArea(action) {
       yield getToken(),
     );
     console.log('res', response);
-
-    // if (response?.message.includes('successfully')) {
-    //   try {
-    //     let jobListResponse = yield call(GET, `job/get-jobs`, yield getToken());
-    //     yield put({
-    //       type: JOB.JOB_LIST_SUCCESS.type,
-    //       data: {
-    //         [JOB.JOB_LIST_SUCCESS.value]: jobListResponse?.jobs,
-    //       },
-    //     });
-    //   } catch (error) {
-    //     yield put({
-    //       type: JOB.JOB_LIST_FAILURE.type,
-    //       data: {error: error},
-    //     });
-    //   }
-    // }
     yield put({
       type: JOB.CREATE_JOB_AREA_SUCCESS.type,
       data: {

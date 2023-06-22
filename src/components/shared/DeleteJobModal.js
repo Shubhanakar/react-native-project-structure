@@ -84,6 +84,7 @@ const DeleteJobModal = props => {
 
 DeleteJobModal.propTypes = {
   modalVisible: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 DeleteJobModal.defaultProps = {

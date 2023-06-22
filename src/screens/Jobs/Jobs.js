@@ -11,7 +11,7 @@ import React, {useState, useEffect} from 'react';
 import normalize from '../../utils/Dimen';
 import MyStatusBar from '../../utils/StatusBar';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
+
 import Loader from '../../utils/Loader';
 import Status from '../../utils/Status';
 import {Fonts, Colors, Icons} from '../../theme/theme';
@@ -49,31 +49,19 @@ export default function Jobs(props) {
 
   const JobReducer = useSelector(state => state.JobReducer);
 
-  {
-    /* useEffect API call */
-  }
+  //useEffect API call//
   useEffect(() => {
-    isInternetConnected()
-      .then(() => {
-        dispatch(getProfile()); // fetch profile details
-        dispatch(getJobList()); // fetch job list
-        dispatch(getSheetType()); // fetch sheet type
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
-  }, []);
+    dispatch(getProfile()); // fetch profile details
+    dispatch(getJobList()); // fetch job list
+    dispatch(getSheetType()); // fetch sheet type
+  }, [dispatch]);
 
-  {
-    /* fun to store delete job data */
-  }
+  // fun to store delete job data//
   const deleteJob = data => {
     setDeleteModalVisible(!deleteModalVisible);
     setJobDetails(data);
   };
-  {
-    /* fun to delete job */
-  }
+  //fun to delete job//
   const deleteJobData = () => {
     dispatch(deleteJobReq(jobDetails?.jobId)); //  API call to delete job req
     setDeleteModalVisible(false);
@@ -81,27 +69,17 @@ export default function Jobs(props) {
 
   // API call to filter jo list in chronological order
   const chronologicalOrder = order => {
-    setJobDate(false), setLastEdited(!lastEdited);
-    isInternetConnected()
-      .then(() => {
-        dispatch(filterJobs({order: order, search}));
-        setModalVisible(false);
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    setJobDate(false);
+    setLastEdited(!lastEdited);
+    dispatch(filterJobs({order: order, search}));
+    setModalVisible(false);
   };
   // API call to filter jo list in alphabetical order
   const alphabeticalOrder = order => {
-    setZtoA(false), setAtoZ(!aToz);
-    isInternetConnected()
-      .then(() => {
-        dispatch(filterJobs({order: order, search}));
-        setModalVisible(false);
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    setZtoA(false);
+    setAtoZ(!aToz);
+    dispatch(filterJobs({order: order, search}));
+    setModalVisible(false);
   };
   // open filter modal
   function openModal() {
@@ -168,8 +146,6 @@ export default function Jobs(props) {
                     ? Colors.secondaryColor
                     : Colors.white,
                   borderRadius: normalize(50),
-                  justifyContent: 'center',
-
                   alignItems: 'center',
                   marginLeft: normalize(15),
                   marginTop: normalize(15),
@@ -202,7 +178,6 @@ export default function Jobs(props) {
                   alignItems: 'center',
                   marginLeft: normalize(15),
                   marginTop: normalize(15),
-                  justifyContent: 'center',
                   borderColor: '#656565',
                   borderWidth: jobDate ? 0 : 1.5,
                 }}>
@@ -242,7 +217,6 @@ export default function Jobs(props) {
                   alignItems: 'center',
                   marginLeft: normalize(15),
                   marginTop: normalize(15),
-                  justifyContent: 'center',
                   borderColor: '#656565',
                   borderWidth: aToz ? 0 : 1.5,
                 }}>
@@ -269,7 +243,6 @@ export default function Jobs(props) {
                   alignItems: 'center',
                   marginLeft: normalize(15),
                   marginTop: normalize(15),
-                  justifyContent: 'center',
                   borderColor: '#656565',
                   borderWidth: zToa ? 0 : 1.5,
                 }}>
@@ -296,18 +269,12 @@ export default function Jobs(props) {
   // function for search job
   const searchJob = data => {
     setSearch(data);
-    if (data != '') {
+    if (data.length > 0) {
       setIsSearch(true);
     } else {
       setIsSearch(false);
     }
-    isInternetConnected()
-      .then(() => {
-        dispatch(searchJobs(data));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(searchJobs(data));
   };
   // function for remove search data
   const removeSearchData = () => {
@@ -370,17 +337,11 @@ export default function Jobs(props) {
   const onRefreshList = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      isInternetConnected()
-        .then(() => {
-          dispatch(getProfile());
-          dispatch(getJobList());
-          setRefreshing(false);
-        })
-        .catch(err => {
-          showErrorAlert('Please check your internet connection');
-        });
+      dispatch(getProfile());
+      dispatch(getJobList());
+      setRefreshing(false);
     }, 2000);
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.primaryColor}}>
@@ -434,7 +395,7 @@ export default function Jobs(props) {
             onPress={() => {
               removeSearchData();
             }}>
-            {isSearch == false ? (
+            {isSearch === false ? (
               <Image
                 source={Icons.search}
                 style={{
@@ -493,7 +454,7 @@ export default function Jobs(props) {
               color: '#F0F0F0',
               fontFamily: Fonts.DMSans_Medium,
             }}>
-            {isSearch == true
+            {isSearch === true
               ? 'No data found'
               : 'You have not created any jobs yet. Tap the plus to get started.'}
           </Text>

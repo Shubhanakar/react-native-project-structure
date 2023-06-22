@@ -89,7 +89,7 @@ export function* GET_SET(_SUCCESS, _FAILD, URL, HEADER = json_data, TOKEN) {
     }
     let response = yield call(getApi, URL, TOKEN, HEADER);
     console.log(response);
-    if (response?.status == 200) {
+    if (response?.status === 200) {
       yield put({
         type: _SUCCESS.type,
         data: {
@@ -123,7 +123,7 @@ export function* POST_SET(
     }
     let response = yield call(postApi, URL, PAYLOAD, TOKEN, HEADER);
     console.log(response, 'THE POST SET');
-    if (response?.status == 200 || response?.status == 201) {
+    if (response?.status === 200 || response?.status === 201) {
       yield put({
         type: _SUCCESS.type,
         data: {
@@ -159,7 +159,7 @@ export function* POST_FORM(
     }
     let response = yield call(postApi, URL, PAYLOAD, TOKEN, HEADER);
     console.log(response, 'THE POST SET');
-    if (response?.status == 200 || response?.status == 201) {
+    if (response?.status === 200 || response?.status === 201) {
       yield put({
         type: _SUCCESS.type,
         data: {
@@ -195,7 +195,7 @@ export function* PUT_SET(
       TOKEN = yield call(getToken);
     }
     let response = yield call(putApi, URL, PAYLOAD, TOKEN, HEADER);
-    if (response?.status == 200 || response?.status == 201) {
+    if (response?.status === 200 || response?.status === 201) {
       yield put({
         type: _SUCCESS.type,
         data: {
@@ -215,7 +215,7 @@ export function* PUT_SET(
   }
 }
 
-export function* DELETE_SET(_SUCCESS, _FAILD, URL, TOKEN, json_data) {
+export function* DELETE_SET(_SUCCESS, _FAILD, URL, TOKEN) {
   try {
     console.log('DELETE SET');
     if (!TOKEN) {
@@ -223,7 +223,7 @@ export function* DELETE_SET(_SUCCESS, _FAILD, URL, TOKEN, json_data) {
     }
     let response = yield call(deleteApi, URL, TOKEN, json_data);
     console.log(response, 'Account deleted successfully');
-    if (response?.status == 200 || response?.status == 201) {
+    if (response?.status === 200 || response?.status === 201) {
       yield put({
         type: _SUCCESS.type,
         data: {
@@ -257,7 +257,7 @@ export function* PATCH_SET(
       TOKEN = yield call(getToken);
     }
     let response = yield call(patchApi, URL, PAYLOAD, TOKEN, HEADER);
-    if (response?.status == 200 || response?.status == 201) {
+    if (response?.status === 200 || response?.status === 201) {
       yield put({
         type: _SUCCESS.type,
         data: {

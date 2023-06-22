@@ -8,12 +8,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {socialData} from '../../redux/action/AuthAction';
 import Status from '../../utils/Status';
 import {AUTH} from '../../redux/store/TypeConstants';
-import isInternetConnected from '../../utils/NetInfo';
+
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import GoogleLogin from '../../utils/GoogleLogin';
 
 export default function Signup(props) {
   const dispatch = useDispatch();
@@ -46,37 +45,19 @@ export default function Signup(props) {
     /* Making an API request from facebook API then make a server request with facebook API response */
   }
   const getUserDatafromFacebook = () => {
-    isInternetConnected()
-      .then(() => {
-        onFacebookLogin()
-          .then(res => {
-            let obj = res;
-            obj.provider = 'Facebook';
-            dispatch(socialData(obj));
-          })
-          .catch(err => {});
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    let obj = res;
+    obj.provider = 'Facebook';
+    dispatch(socialData(obj));
   };
 
   {
     /* Making an API request from google API then make a server request with google API response */
   }
   const getUserDatafromGoogle = () => {
-    // isInternetConnected()
-    //   .then(() => {
-    //     // const userResp = GoogleLogin();
-    //     // let obj = userResp;
-    //     // obj.provider = 'Google';
-    //     // dispatch(socialData(obj));
-    //     props.navigation.navigate('CreateAccount');
-    //   })
-    //   .catch(err => {
-    //     showAlerts('Please check your internet connection');
-    //   });
-
+    const userResp = GoogleLogin();
+    let obj = userResp;
+    obj.provider = 'Google';
+    dispatch(socialData(obj));
     props.navigation.navigate('CreateAccount');
   };
 

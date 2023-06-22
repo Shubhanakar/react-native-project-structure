@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {deleteAccountReq} from '../../redux/action/ProfileAction';
 const DeleteConfirmationModal = props => {
   const dispatch = useDispatch();
+
   const deleteAccount = () => {
     setModalVisible(false);
     dispatch(deleteAccountReq());
@@ -92,10 +93,12 @@ const DeleteConfirmationModal = props => {
 
 DeleteConfirmationModal.propTypes = {
   modalVisible: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 DeleteConfirmationModal.defaultProps = {
   modalVisible: false,
+  closeModal: null,
 };
 
 export default DeleteConfirmationModal;

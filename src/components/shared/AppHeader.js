@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import normalize from '../../utils/Dimen';
 import {Icons, Colors, Fonts} from '../../theme/theme';
@@ -46,7 +46,6 @@ export default function AppHeader(props) {
           style={{
             fontSize: normalize(26),
             marginTop: normalize(6),
-            marginLeft: normalize(15),
             color: Colors.white,
             fontFamily: Fonts.DMSans_Medium,
             marginLeft: normalize(20),

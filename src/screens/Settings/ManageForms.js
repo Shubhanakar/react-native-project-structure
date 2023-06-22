@@ -24,7 +24,6 @@ import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
 import AddSheetSizeModal from '../../components/shared/AddSheetSizeModal';
 import AddSupplyModal from '../../components/shared/AddSupplyModal';
 
@@ -41,97 +40,55 @@ export default function ManageForms(props) {
   const dispatch = useDispatch();
   const JobReducer = useSelector(state => state.JobReducer);
 
-  {
-    /* fun for get sheet tyes ie. Drywall sheet, 54 Inch sheets and other sheets */
-  }
+  //fun for get sheet tyes ie. Drywall sheet, 54 Inch sheets and other sheets//
   useEffect(() => {
-    isInternetConnected()
-      .then(() => {
-        dispatch(getSheetType());
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
-  }, []);
+    dispatch(getSheetType());
+  }, [dispatch]);
 
-  {
-    /* set the api data to the state variable */
-  }
-
-  {
-    /* fun for pull to refresh list */
-  }
-
+  //fun for pull to refresh//
   const onRefreshList = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      isInternetConnected()
-        .then(() => {
-          dispatch(getSheetType());
-          setRefreshing(false);
-        })
-        .catch(err => {
-          showErrorAlert('Please check your internet connection');
-        });
+      dispatch(getSheetType());
+      setRefreshing(false);
     }, 500);
-  }, []);
+  }, [dispatch]);
 
-  {
-    /* fun for create sheet size */
-  }
+  //fun for create sheet size//
   const createSheetSize = () => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {};
-        if (!value) {
-          showErrorAlert('Please select a value');
-        } else if (!title) {
-          showErrorAlert('Please enter title');
-        } else if (value !== 'OtherSheets' && !defaultSize) {
-          showErrorAlert('Please enter a size');
-        } else {
-          obj.type = value;
-          obj.title = title;
-          obj.squareFeet = parseFloat(otherSize);
-          obj.length = value !== 'OtherSheets' ? parseInt(defaultSize) : null;
-          dispatch(createSheet(obj));
-          setIsSheetModalVisible(!isSheetModalVisible);
-          setDefaultSize('');
-          setOtherSize('');
-          setValue('');
-          setTitle('');
-        }
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    let obj = {};
+    if (!value) {
+      showErrorAlert('Please select a value');
+    } else if (title.length === 0) {
+      showErrorAlert('Please enter title');
+    } else if (value !== 'OtherSheets' && defaultSize !== 0) {
+      showErrorAlert('Please enter a size');
+    } else {
+      obj.type = value;
+      obj.title = title;
+      obj.squareFeet = parseFloat(otherSize);
+      obj.length = value !== 'OtherSheets' ? parseInt(defaultSize, 10) : null;
+      dispatch(createSheet(obj));
+      setIsSheetModalVisible(!isSheetModalVisible);
+      setDefaultSize('');
+      setOtherSize('');
+      setValue('');
+      setTitle('');
+    }
   };
 
-  {
-    /* fun for create supply */
-  }
+  //fun for create supply//
   const createSupply = data => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {};
-        if (!data) {
-          showErrorAlert('Please enter supply name');
-        } else {
-          obj.title = data;
-
-          dispatch(createSupplier(obj));
-
-          setModalVisible(!modalVisible);
-        }
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    let obj = {};
+    if (data.length === 0) {
+      showErrorAlert('Please enter supply name');
+    } else {
+      obj.title = data;
+      dispatch(createSupplier(obj));
+      setModalVisible(!modalVisible);
+    }
   };
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
-
+  // Checking status of API response SUCCESS and FAILURE
   Status(
     JobReducer.status,
     JOB.DELETE_SHEET_REQUEST.type,
@@ -171,29 +128,13 @@ export default function ManageForms(props) {
     },
   );
 
-  {
-    /* fun for delete sheets  */
-  }
+  //fun for delete sheets//
   const deleteSheet = sheetId => {
-    isInternetConnected()
-      .then(() => {
-        dispatch(deleteSheetReq(sheetId));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(deleteSheetReq(sheetId));
   };
-  {
-    /* fun for delete supplies  */
-  }
+  //fun for delete supplies//
   const deleteSupply = supplierId => {
-    isInternetConnected()
-      .then(() => {
-        dispatch(deleteSupplyReq(supplierId));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
+    dispatch(deleteSupplyReq(supplierId));
   };
 
   return (

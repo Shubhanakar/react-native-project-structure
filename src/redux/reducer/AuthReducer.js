@@ -1,4 +1,4 @@
-import {AUTH, Auth} from '../store/TypeConstants';
+import {AUTH} from '../store/TypeConstants';
 
 const initialState = {
   status: '',
@@ -21,7 +21,7 @@ const AuthReducer = (state = initialState, action) => {
       ...action.data,
       status: AUTH[action.type].type,
     };
-  } else if (action.type == 'RESET') {
+  } else if (action.type === 'RESET') {
     return {
       status: '',
       error: '',

@@ -89,10 +89,12 @@ const SelectCountryModal = props => {
 
 SelectCountryModal.propTypes = {
   modalVisible: PropTypes.bool,
+  closeModal: PropTypes.func,
 };
 
 SelectCountryModal.defaultProps = {
   modalVisible: false,
+  closeModal: null,
 };
 
 export default SelectCountryModal;

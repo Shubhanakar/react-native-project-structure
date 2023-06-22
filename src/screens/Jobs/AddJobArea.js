@@ -29,7 +29,6 @@ import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
 import AddSupplyComponent from '../../components/featured/AddSupplyComponent';
 import TextInputComponent from '../../components/shared/TextInput';
 import Modal from 'react-native-modal';
@@ -74,38 +73,27 @@ export default function AddJobArea(props) {
     );
   };
 
-  {
-    /* useEffect to get sheet list ie. DryWallSheets,FiftyFourInchSheets,OtherSheets  */
-  }
-
+  //useEffect to get sheet list ie. DryWallSheets,FiftyFourInchSheets,OtherSheets //
   useEffect(() => {
-    // Injecting the quantity=0 field to the array
-    if (JobReducer?.sheetList?.sheets?.DryWallSheets?.length > 0) {
-      const arr = JobReducer?.sheetList?.sheets?.DryWallSheets;
-      const arrWithValue = arr.map(object => {
-        return {...object, quantity: 0};
-      });
+    const sheetArrays = [
+      JobReducer?.sheetList?.sheets?.DryWallSheets,
+      JobReducer?.sheetList?.sheets?.FiftyFourInchSheets,
+      JobReducer?.sheetList?.sheets?.OtherSheets,
+    ];
+    const quantityArrays = sheetArrays.map(arr => {
+      if (arr && arr.length > 0) {
+        return arr.map(object => {
+          return {...object, quantity: 0};
+        });
+      }
+      return [];
+    });
 
-      setDryWallSheets(arrWithValue);
-    }
+    const [regularSheets, fiftyFourInchSheets, otherSheets] = quantityArrays;
 
-    if (JobReducer?.sheetList?.sheets?.FiftyFourInchSheets?.length > 0) {
-      const arr = JobReducer?.sheetList?.sheets?.FiftyFourInchSheets;
-      const arrWithFiftyFourInchSheets = arr.map(object => {
-        return {...object, quantity: 0};
-      });
-
-      setDryWall54InchSheets(arrWithFiftyFourInchSheets);
-    }
-
-    if (JobReducer?.sheetList?.sheets?.OtherSheets?.length > 0) {
-      const arr = JobReducer?.sheetList?.sheets?.OtherSheets;
-      const arrWithOtherSheets = arr.map(object => {
-        return {...object, quantity: 0};
-      });
-
-      setDryWallOtherSheets(arrWithOtherSheets);
-    }
+    setDryWallSheets(regularSheets);
+    setDryWall54InchSheets(fiftyFourInchSheets);
+    setDryWallOtherSheets(otherSheets);
 
     return () => {
       setDryWall54InchSheets([]);
@@ -114,9 +102,8 @@ export default function AddJobArea(props) {
     };
   }, [JobReducer?.sheetList?.sheets]);
 
-  {
-    /* useEffect to get supplies list from JobReducer.getJobAreaByID reducer */
-  }
+  // useEffect to get supplies list from JobReducer.getJobAreaByID reducer //
+
   useEffect(() => {
     dispatch(resetSupplyData());
     if (JobReducer?.getJobAreaByID?.supplies?.length > 0) {
@@ -140,49 +127,34 @@ export default function AddJobArea(props) {
         ]),
       );
     }
-  }, [JobReducer?.getJobAreaByID?.supplies]);
+  }, [JobReducer?.getJobAreaByID?.supplies, dispatch]);
 
-  {
-    /* useEffect to get sheet types from JobReducer.shteeType reducer */
-  }
+  // useEffect to check dependecy on edit and add job area.//
   useEffect(() => {
-    if (JobReducer?.shteeType?.sheet_types?.length > 0) {
-      setItems(JobReducer?.shteeType?.sheet_types);
-    }
-  }, [JobReducer?.shteeType?.sheet_types]);
-
-  {
-    /* useEffect to check dependecy on edit and add job area*/
-  }
-  useEffect(() => {
-    if (editJobArea == true) {
+    if (editJobArea === true) {
       setJobAreaName(JobReducer?.selectedJobArea?.jobAreaName);
     } else {
       setJobAreaName('');
     }
-  }, [editJobArea]);
+  }, [JobReducer?.selectedJobArea?.jobAreaName, editJobArea]);
 
-  {
-    /* useEffect to fetch job area of the selected job*/
-  }
+  // useEffect to fetch job area of the selected job //
   useEffect(() => {
     if (JobReducer?.selectedJobArea?.jobAreaId) {
       dispatch(getJobAreaById(JobReducer?.selectedJobArea?.jobAreaId));
     }
-  }, [JobReducer?.selectedJobArea?.jobAreaId]);
+  }, [JobReducer?.selectedJobArea?.jobAreaId, dispatch]);
 
-  {
-    /* useEffect to fetch job area detalis of the selected area by job area id*/
-  }
+  //useEffect to fetch job area detalis of the selected area by job area id//
   useEffect(() => {
     let JobAreaDetails = JobReducer?.getJobAreaByID;
 
     setCalculateTotalSquareFeet(JobAreaDetails?.squareFeet);
 
-    if (JobAreaDetails?.sheetThickness === `1/2''`) {
+    if (JobAreaDetails?.sheetThickness === '"1/2\'\'"') {
       setHalfInch(true);
       setFiveEightInch(false);
-    } else if (JobAreaDetails?.sheetThickness === `5/8''`) {
+    } else if (JobAreaDetails?.sheetThickness === '"5/8\'\'"') {
       setHalfInch(false);
       setFiveEightInch(true);
     }
@@ -222,32 +194,25 @@ export default function AddJobArea(props) {
         setDryWallOtherSheets(arrayWithOtherShets);
       }
     } else {
-      if (JobReducer?.sheetList?.sheets?.DryWallSheets?.length > 0) {
-        const arr = JobReducer?.sheetList?.sheets?.DryWallSheets;
-        const arrWithValue = arr.map(object => {
-          return {...object, quantity: 0};
-        });
+      const sheetArrays = [
+        JobReducer?.sheetList?.sheets?.DryWallSheets,
+        JobReducer?.sheetList?.sheets?.FiftyFourInchSheets,
+        JobReducer?.sheetList?.sheets?.OtherSheets,
+      ];
+      const quantityArrays = sheetArrays.map(arr => {
+        if (arr && arr.length > 0) {
+          return arr.map(object => {
+            return {...object, quantity: 0};
+          });
+        }
+        return [];
+      });
 
-        setDryWallSheets(arrWithValue);
-      }
+      const [regularSheets, fiftyFourInchSheets, otherSheets] = quantityArrays;
 
-      if (JobReducer?.sheetList?.sheets?.FiftyFourInchSheets?.length > 0) {
-        const arr = JobReducer?.sheetList?.sheets?.FiftyFourInchSheets;
-        const arrWithFiftyFourInchSheets = arr.map(object => {
-          return {...object, quantity: 0};
-        });
-
-        setDryWall54InchSheets(arrWithFiftyFourInchSheets);
-      }
-
-      if (JobReducer?.sheetList?.sheets?.OtherSheets?.length > 0) {
-        const arr = JobReducer?.sheetList?.sheets?.OtherSheets;
-        const arrWithOtherSheets = arr.map(object => {
-          return {...object, quantity: 0};
-        });
-
-        setDryWallOtherSheets(arrWithOtherSheets);
-      }
+      setDryWallSheets(regularSheets);
+      setDryWall54InchSheets(fiftyFourInchSheets);
+      setDryWallOtherSheets(otherSheets);
     }
 
     return () => {
@@ -255,22 +220,18 @@ export default function AddJobArea(props) {
       setDryWallOtherSheets([]);
       setDryWallSheets([]);
     };
-  }, [JobReducer?.getJobAreaByID]);
+  }, [JobReducer?.getJobAreaByID, JobReducer?.sheetList?.sheets]);
 
-  {
-    /* useEffect to check current selected index for screening job area*/
-  }
+  //useEffect to check current selected index for screening job area//
   useEffect(() => {
     if (JobReducer?.jobAreaList && JobReducer?.jobAreaList?.length > 0) {
       dispatch(
         saveSelectedJobAreaDetails(JobReducer?.jobAreaList[selectedIndex]),
       );
     }
-  }, [selectedIndex]);
+  }, [JobReducer?.jobAreaList, dispatch, selectedIndex]);
 
-  {
-    /* fun to take the master sheet list and update the master sheet with new array having quantity to making new array and render that array */
-  }
+  //fun to take the master sheet list and update the master sheet with new array having quantity to making new array and render that array
   function updateArrayWithQuantity(originalArray, quantityArray) {
     const sheetsWithQuantity = originalArray.map(sheet => {
       const quantity =
@@ -283,31 +244,22 @@ export default function AddJobArea(props) {
     });
     return sheetsWithQuantity;
   }
-  {
-    /* fun to create job area  */
-  }
+
+  //fun to create job area//
   const createJobArea = () => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {
-          jobId: JobReducer?.singleJobDetailsReq?.jobId,
-          jobAreaName: jobAreaName,
-        };
-        if (!jobAreaName) {
-          showErrorAlert('Please enter job area name');
-        } else {
-          setModalVisible(!modalVisible);
-          dispatch(createJobAreaReq(obj));
-          setJobAreaName('');
-        }
-      })
-      .catch(() => {
-        showErrorAlert('Please check your internet connection');
-      });
+    let obj = {
+      jobId: JobReducer?.singleJobDetailsReq?.jobId,
+      jobAreaName: jobAreaName,
+    };
+    if (!jobAreaName) {
+      showErrorAlert('Please enter job area name');
+    } else {
+      setModalVisible(!modalVisible);
+      dispatch(createJobAreaReq(obj));
+      setJobAreaName('');
+    }
   };
-  {
-    /* fun to create job area  */
-  }
+  //fun to create job area//
   const updateJobArea = () => {
     let sheets = [
       ...dryWallSheets,
@@ -333,7 +285,7 @@ export default function AddJobArea(props) {
       jobAreaName !== ''
         ? jobAreaName
         : JobReducer?.selectedJobArea?.jobAreaName;
-    obj.sheetThickness = halfInch == true ? `1/2''` : `5/8''`;
+    obj.sheetThickness = halfInch === true ? "1/2''" : "5/8''";
     obj.jobNotes = notes ? notes : null;
     obj.sheets = filteredSheets ? filteredSheets : [];
     obj.supplies = filteredSupply ? filteredSupply : [];
@@ -345,9 +297,7 @@ export default function AddJobArea(props) {
     isEditJobArea(false);
     dispatch(resetSupplyData());
   };
-  {
-    /* fun to calculate the total sq ft of the 3 diffetent types of sheet  */
-  }
+  //fun to calculate the total sq ft of the 3 diffetent types of sheet//
   const calculateTotalSqFeet = () => {
     let totalsq = 0;
     dryWallSheets.map(item => {
@@ -363,16 +313,14 @@ export default function AddJobArea(props) {
     setCalculateTotalSquareFeet(totalsq);
   };
 
-  {
-    /* fun to increment and decrement quantity  */
-  }
+  //fun to increment and decrement quantity//
   const addDrywallSheets = (incrementData, itemIndex, actionType) => {
     let sheets = [];
 
     if (actionType === 'add') {
       let tempData = dryWallSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity + incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -386,7 +334,7 @@ export default function AddJobArea(props) {
     } else if (actionType === 'delete') {
       let tempData = dryWallSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity - incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -408,7 +356,7 @@ export default function AddJobArea(props) {
     if (actionType === 'add') {
       let tempData = dryWall54InchSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity + incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -422,7 +370,7 @@ export default function AddJobArea(props) {
     } else if (actionType === 'delete') {
       let tempData = dryWall54InchSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity - incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -442,7 +390,7 @@ export default function AddJobArea(props) {
     if (actionType === 'add') {
       let tempData = dryWallOtherSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity + incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -454,7 +402,7 @@ export default function AddJobArea(props) {
     } else if (actionType === 'delete') {
       let tempData = dryWallOtherSheets;
       tempData.map((item, index) => {
-        if (index == itemIndex) {
+        if (index === itemIndex) {
           item.quantity = item.quantity - incrementData;
           item.totalSqFeet = item.squareFeet * item.quantity;
         }
@@ -467,51 +415,31 @@ export default function AddJobArea(props) {
     calculateTotalSqFeet();
   };
 
-  {
-    /* fun to create sheet size  */
-  }
+  //fun to create sheet size//
   const createSheetSize = (value, title, otherSize, defaultSize) => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {};
-        if (!value) {
-          showErrorAlert('Please select a value');
-        } else {
-          obj.type = value;
-          obj.title = title;
-          obj.squareFeet = parseInt(otherSize);
-          obj.length = parseInt(defaultSize);
+    let obj = {};
+    if (!value) {
+      showErrorAlert('Please select a value');
+    } else {
+      obj.type = value;
+      obj.title = title;
+      obj.squareFeet = parseInt(otherSize, 10);
+      obj.length = parseInt(defaultSize, 10);
 
-          dispatch(createSheet(obj));
-          setOpenAddSizeModal(!openAddSizeModal);
-          setDefaultSize('');
-          setOtherSize('');
-          setValue('');
-          setTitle('');
-        }
-      })
-      .catch(() => {
-        showErrorAlert('Please check your internet connection');
-      });
+      dispatch(createSheet(obj));
+      setOpenAddSizeModal(!openAddSizeModal);
+    }
   };
-  {
-    /* fun to create supply  */
-  }
+  //fun to create supply//
   const createSupply = data => {
-    isInternetConnected()
-      .then(() => {
-        let obj = {};
-        if (!data) {
-          showErrorAlert('Please enter supply name');
-        } else {
-          obj.title = data;
-          dispatch(createSupplier(obj));
-          setSupplyModalVisible(!supplyModalVisible);
-        }
-      })
-      .catch(() => {
-        showErrorAlert('Please check your internet connection');
-      });
+    let obj = {};
+    if (data.length === 0) {
+      showErrorAlert('Please enter supply name');
+    } else {
+      obj.title = data;
+      dispatch(createSupplier(obj));
+      setSupplyModalVisible(!supplyModalVisible);
+    }
   };
 
   function openCreateAreaModal() {
@@ -525,7 +453,8 @@ export default function AddJobArea(props) {
           isVisible={modalVisible}
           style={{}}
           onBackdropPress={() => {
-            setModalVisible(false), isEditJobArea(!editJobArea);
+            setModalVisible(false);
+            isEditJobArea(!editJobArea);
           }}>
           <View
             style={{
@@ -537,7 +466,8 @@ export default function AddJobArea(props) {
             }}>
             <TouchableOpacity
               onPress={() => {
-                setModalVisible(false), setJobAreaName('');
+                setModalVisible(false);
+                setJobAreaName('');
               }}>
               <Image
                 source={Icons.cross}
@@ -559,10 +489,10 @@ export default function AddJobArea(props) {
                 marginTop: normalize(10),
                 alignSelf: 'center',
               }}>
-              {editJobArea == true ? 'Edit Your Area' : 'Name Your Area'}
+              {editJobArea === true ? 'Edit Your Area' : 'Name Your Area'}
             </Text>
 
-            {editJobArea == true ? (
+            {editJobArea === true ? (
               <TextInputComponent
                 borderRadius={0}
                 marginTop={normalize(18)}
@@ -593,7 +523,7 @@ export default function AddJobArea(props) {
 
             <TouchableOpacity
               onPress={() => {
-                if (editJobArea == true) {
+                if (editJobArea === true) {
                   updateJobArea();
                 } else {
                   createJobArea();
@@ -615,7 +545,7 @@ export default function AddJobArea(props) {
                   color: Colors.white,
                   fontSize: normalize(16),
                 }}>
-                {editJobArea == true ? 'Edit' : 'Create'}
+                {editJobArea === true ? 'Edit' : 'Create'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -624,9 +554,7 @@ export default function AddJobArea(props) {
     );
   }
 
-  {
-    /* fun to switch to previous area*/
-  }
+  //fun to switch to previous area//
   const goToPreviousArea = () => {
     if (selectedIndex !== -1) {
       setSelectedIndex(selectedIndex - 1);
@@ -634,9 +562,7 @@ export default function AddJobArea(props) {
       setSelectedIndex(selectedIndex);
     }
   };
-  {
-    /* fun to switch to next area*/
-  }
+  //fun to switch to next area//
   const goToNextArea = () => {
     if (selectedIndex !== JobReducer?.jobAreaList?.length - 1) {
       setSelectedIndex(selectedIndex + 1);
@@ -677,9 +603,7 @@ export default function AddJobArea(props) {
       });
     }
   };
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  // Checking status of API response SUCCESS and FAILURE//
   Status(
     JobReducer.status,
     JOB.CREATE_JOB_AREA_REQUEST.type,
@@ -852,7 +776,8 @@ export default function AddJobArea(props) {
           style={{
             height: '100%',
             width: '100%',
-          }}></View>
+          }}
+        />
       ) : JobReducer?.jobAreaList?.length > 0 ? (
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
@@ -872,7 +797,8 @@ export default function AddJobArea(props) {
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  setModalVisible(!modalVisible), isEditJobArea(!editJobArea);
+                  setModalVisible(!modalVisible);
+                  isEditJobArea(!editJobArea);
                 }}>
                 <Text
                   numberOfLines={1}
@@ -919,7 +845,8 @@ export default function AddJobArea(props) {
               <View style={{flexDirection: 'row'}}>
                 <TouchableOpacity
                   onPress={() => {
-                    setFiveEightInch(false), setHalfInch(!halfInch);
+                    setFiveEightInch(false);
+                    setHalfInch(!halfInch);
                   }}
                   style={{marginTop: normalize(4.5)}}>
                   {halfInch ? (
@@ -963,7 +890,8 @@ export default function AddJobArea(props) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    setFiveEightInch(!fiveEightInch), setHalfInch(false);
+                    setFiveEightInch(!fiveEightInch);
+                    setHalfInch(false);
                   }}
                   style={{marginTop: normalize(4.5)}}>
                   {fiveEightInch ? (
@@ -1029,8 +957,7 @@ export default function AddJobArea(props) {
                   />
                 </TouchableOpacity>
               ) : (
-                <View
-                  style={{height: normalize(25), width: normalize(25)}}></View>
+                <View style={{height: normalize(25), width: normalize(25)}} />
               )}
 
               <RegularSheetList
@@ -1245,9 +1172,10 @@ export default function AddJobArea(props) {
                         width: 10,
                         borderRadius: 10,
                         backgroundColor:
-                          selectedIndex == index ? Colors.white : '#B0B0B0',
+                          selectedIndex === index ? Colors.white : '#B0B0B0',
                         marginLeft: 10,
-                      }}></View>
+                      }}
+                    />
                   );
                 })}
             </View>

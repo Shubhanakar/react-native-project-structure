@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Dimensions,
-  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   Image,
@@ -20,6 +17,7 @@ import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
 import Loader from '../../utils/Loader';
 import constants from '../../constants';
+import {useSelector} from 'react-redux';
 import DeleteConfirmationModal from '../../components/shared/DeleteAccountModal';
 
 export default function Settings(props) {
@@ -27,9 +25,7 @@ export default function Settings(props) {
 
   const ProfileReducer = useSelector(state => state.ProfileReducer);
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     ProfileReducer.status,
     PROFILE.DELETE_ACCOUNT_REQUEST.type,

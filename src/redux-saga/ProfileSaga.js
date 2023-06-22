@@ -1,24 +1,12 @@
-import {put, call, takeLatest, take} from 'redux-saga/effects';
+import {put, call, takeLatest} from 'redux-saga/effects';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import constants from '../constants/index';
-import {AUTH, TOKEN, PROFILE} from '../redux/store/TypeConstants';
-import {
-  POST_SET,
-  GET,
-  GET_SET,
-  POST,
-  getToken,
-  json_data,
-  PUT_SET,
-  POST_FORM,
-  PATCH_SET,
-  DELETE_SET,
-  DELETE,
-} from './setup/method';
+import {AUTH, PROFILE} from '../redux/store/TypeConstants';
+import {GET, getToken, PATCH_SET, DELETE} from './setup/method';
 
 function* getProfile() {
   try {
-    let response = yield call(GET, `auth/me`, yield getToken());
+    let response = yield call(GET, 'auth/me', yield getToken());
 
     console.log(response, 'RESPPPT');
 
@@ -30,7 +18,7 @@ function* getProfile() {
     });
   } catch (error) {
     console.log(error?.response?.status);
-    if (error?.response?.status == 401) {
+    if (error?.response?.status === 401) {
       try {
         console.log('token at saga', yield getToken());
         yield call(EncryptedStorage.removeItem, constants.TOKEN);
@@ -55,7 +43,7 @@ function* getProfile() {
 
 function* getHomeData() {
   try {
-    let response = yield call(GET, `home`, yield getToken());
+    let response = yield call(GET, 'home', yield getToken());
 
     yield put({
       type: PROFILE.GET_HOME_SUCCESS.type,
@@ -77,7 +65,7 @@ function* getUpdateProfile(action) {
       PATCH_SET,
       PROFILE.UPDATE_PROFILE_SUCCESS,
       PROFILE.UPDATE_PROFILE_FAILURE,
-      `auth/update-profile`,
+      'auth/update-profile',
       action.payload,
     );
   } catch (error) {
@@ -90,7 +78,7 @@ function* getUpdateProfile(action) {
 
 function* getDeleteAccount(action) {
   try {
-    let response = yield call(DELETE, `auth/delete-account`, yield getToken());
+    let response = yield call(DELETE, 'auth/delete-account', yield getToken());
 
     yield put({
       type: PROFILE.DELETE_ACCOUNT_SUCCESS.type,

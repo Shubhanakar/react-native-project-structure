@@ -21,7 +21,7 @@ const SettingsReducer = (state = initialState, action) => {
       ...action.data,
       status: SETTINGS[action.type].type,
     };
-  } else if (action.type == 'RESET') {
+  } else if (action.type === 'RESET') {
     return {
       status: '',
       error: '',

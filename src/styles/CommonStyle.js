@@ -1,7 +1,11 @@
 import {StyleSheet} from 'react-native';
 import {Colors, Fonts} from '../theme/theme';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-export default CommonStyles = StyleSheet.create({
+const CommonStyles = StyleSheet.create({
   shadowAndroid: {
     shadowColor: '#000',
     shadowOffset: {
@@ -49,3 +53,5 @@ export default CommonStyles = StyleSheet.create({
     marginBottom: hp(2),
   },
 });
+
+export default CommonStyles;

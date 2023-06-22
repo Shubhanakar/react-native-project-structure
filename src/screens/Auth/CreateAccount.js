@@ -1,13 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  SafeAreaView,
-  FlatList,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
 
 import {Fonts, Icons, Colors} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
@@ -22,7 +14,7 @@ import Loader from '../../utils/Loader';
 import {AUTH} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
-import isInternetConnected from '../../utils/NetInfo';
+
 import MaskInput, {Masks} from 'react-native-mask-input';
 import {Formik} from 'formik';
 import createAccountSchema from '../../schema/CreateAccountSchema';
@@ -30,6 +22,7 @@ import AgeConfirmationModal from '../../components/shared/AgeConfirmationModal';
 import SelectCountryModal from '../../components/shared/SelectCountryModal';
 import AddSheetSizeModal from '../../components/shared/AddSheetSizeModal';
 import DeleteConfirmationModal from '../../components/shared/DeleteAccountModal';
+import Button from '../../components/shared/Button';
 
 export default function CreateAccount(props) {
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
@@ -54,70 +47,45 @@ export default function CreateAccount(props) {
     dateOfBirth: '',
   };
 
-  {
-    /*function for hide date picker */
-  }
+  //function for hide date picker//
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  {
-    /*useEffect for check reducer and set the data to the state variable */
-  }
+  //useEffect for check reducer and set the data to the state variable//
   useEffect(() => {
     formikRef?.current?.setFieldValue(
       'fullName',
       AuthReducer?.socialData?.name,
     );
     formikRef?.current?.setFieldValue('email', AuthReducer?.socialData?.email);
-  }, []);
+  }, [AuthReducer?.socialData?.email, AuthReducer?.socialData?.name]);
 
-  {
-    /*function for request API for create account */
-  }
+  //function for request API for create account//
 
   const createAccount = data => {
-    isInternetConnected()
-      .then(() => {
-        if (!acceptPrivacy) {
-          showErrorAlert('Please accept privacy policy');
-        } else if (!acceptAge) {
-          showErrorAlert('Please accept age confirmation');
-        } else {
-          let obj = {
-            fullName: data.fullName,
-            emailAddress: data.emailAddress,
-            companyName: data.companyName || null,
-            phoneCountryCode: data.phoneCountry || null,
-            phoneNumber: data.phoneNumber || null,
-            dateOfBirth: data.dateOfBirth || null,
-            city: data.city || null,
-            state: data.state || null,
-            providerName: AuthReducer?.socialData?.provider,
-            providerId: AuthReducer?.socialData?.id,
-          };
-        }
-        dispatch(getSignUp(obj));
-      })
-      .catch(err => {
-        showErrorAlert('Please check your internet connection');
-      });
-
-    let obj = {
-      fullName: data.fullName,
-      emailAddress: data.emailAddress,
-      companyName: data.companyName,
-      phoneCountryCode: data.phoneCountryCode,
-      dateOfBirth: data.dateOfBirth,
-      city: data.city,
-      state: data.state,
-    };
-    console.log('formik data', data);
+    if (!acceptPrivacy) {
+      showErrorAlert('Please accept privacy policy');
+    } else if (!acceptAge) {
+      showErrorAlert('Please accept age confirmation');
+    } else {
+      let obj = {
+        fullName: data.fullName,
+        emailAddress: data.emailAddress,
+        companyName: data.companyName || null,
+        phoneCountryCode: data.phoneCountry || null,
+        phoneNumber: data.phoneNumber || null,
+        dateOfBirth: data.dateOfBirth || null,
+        city: data.city || null,
+        state: data.state || null,
+        providerName: AuthReducer?.socialData?.provider,
+        providerId: AuthReducer?.socialData?.id,
+      };
+      dispatch(getSignUp(obj));
+    }
   };
 
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE
   Status(
     AuthReducer.status,
     AUTH.SIGNUP_REQUEST.type,
@@ -338,7 +306,6 @@ export default function CreateAccount(props) {
                     width: '90%',
                     height: normalize(38),
                     alignSelf: 'center',
-                    justifyContent: 'center',
                     borderWidth: 1,
                     marginTop: normalize(5),
 
@@ -458,7 +425,7 @@ export default function CreateAccount(props) {
                           fontFamily: Fonts.DMSans_Regular,
                           fontSize: normalize(12),
                         }}>
-                        {`I agree with the `}
+                        {'I agree with the '}
                       </Text>
                       <Text
                         style={{
@@ -466,7 +433,7 @@ export default function CreateAccount(props) {
                           fontFamily: Fonts.DMSans_Bold,
                           fontSize: normalize(12),
                         }}>
-                        {`Terms and Conditions `}
+                        {'Terms and Conditions '}
                       </Text>
                       <Text
                         style={{
@@ -474,7 +441,7 @@ export default function CreateAccount(props) {
                           fontFamily: Fonts.DMSans_Regular,
                           fontSize: normalize(12),
                         }}>
-                        {`and `}
+                        {'and '}
                       </Text>
                     </View>
                   </View>
@@ -488,7 +455,7 @@ export default function CreateAccount(props) {
                       fontSize: normalize(12),
                       marginTop: -10,
                     }}>
-                    {`Privacy Policy`}
+                    {'Privacy Policy'}
                   </Text>
                   <TouchableOpacity
                     style={{
@@ -577,8 +544,8 @@ export default function CreateAccount(props) {
                   timePickerModeAndroid={'clock'}
                   mode="date"
                   onConfirm={date => {
-                    setFieldValue('dateOfBirth', moment(date).format('L')),
-                      hideDatePicker();
+                    setFieldValue('dateOfBirth', moment(date).format('L'));
+                    hideDatePicker();
                   }}
                   onCancel={hideDatePicker}
                   minimumDate={new Date(1900, 0, 1)}

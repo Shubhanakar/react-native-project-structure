@@ -1,6 +1,6 @@
-import React, {useRef} from 'react';
-import {Text, Image, TouchableOpacity, FlatList, View} from 'react-native';
-import {Colors, Fonts, Icons} from '../../theme/theme';
+import React from 'react';
+import {Text, FlatList, View} from 'react-native';
+import {Colors, Fonts} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
