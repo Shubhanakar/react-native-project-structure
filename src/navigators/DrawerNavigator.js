@@ -21,73 +21,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Jobs from '../screens/Jobs/Jobs';
 import Settings from '../screens/Settings/Settings';
 import {getLogout} from '../redux/action/AuthAction';
-import {useDoubleBackPressExit} from '../hooks/useBackHandlerHooks';
 
 const Drawer = createDrawerNavigator();
 
 var userName = '';
-
-const DrawerContent = (props, dispatch) => {
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <TouchableOpacity
-        style={{
-          height: 40,
-          width: 40,
-          justifyContent: 'center',
-          alignSelf: 'flex-end',
-          marginRight: 10,
-          marginTop: Platform.OS === 'android' ? normalize(40) : 0,
-        }}
-        onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())}>
-        <Image
-          source={Icons.cross}
-          style={{
-            height: normalize(15),
-            width: normalize(15),
-            alignSelf: 'center',
-          }}
-        />
-      </TouchableOpacity>
-      <View
-        style={{
-          height: normalize(170),
-          width: normalize(280),
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: normalize(15),
-            fontFamily: Fonts.DMSans_Medium,
-            color: Colors.white,
-            marginTop: 150,
-          }}>
-          {userName}
-        </Text>
-      </View>
-
-      <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
-      </DrawerContentScrollView>
-      <Button
-        width={'70%'}
-        height={normalize(42)}
-        borderRadius={normalize(22)}
-        fontSize={normalize(14)}
-        marginTop={normalize(20)}
-        marginBottom={normalize(15)}
-        borderColor={Colors.white}
-        textColor={Colors.white}
-        title={'Log Out'}
-        alignSelf={'center'}
-        backgroundColor={Colors.secondaryColor}
-        onPress={() => {
-          dispatch(getLogout());
-        }}
-      />
-    </SafeAreaView>
-  );
-};
 
 const DrawerNavigator = () => {
   const ProfileReducer = useSelector(state => state.ProfileReducer);
@@ -96,13 +33,84 @@ const DrawerNavigator = () => {
 
   userName = ProfileReducer?.profileDetails?.fullName;
 
-  useDoubleBackPressExit(() => {
-    console.log('Button pressed');
-  });
+  const handleLogout = () => {
+    dispatch(getLogout());
+  };
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const DrawerContent = props => {
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <TouchableOpacity
+          style={{
+            height: 40,
+            width: 40,
+            justifyContent: 'center',
+            alignSelf: 'flex-end',
+            marginRight: 10,
+            marginTop: Platform.OS === 'android' ? normalize(40) : 0,
+          }}
+          onPress={() =>
+            props.navigation.dispatch(DrawerActions.toggleDrawer())
+          }>
+          <Image
+            source={Icons.cross}
+            style={{
+              height: normalize(15),
+              width: normalize(15),
+              alignSelf: 'center',
+            }}
+          />
+        </TouchableOpacity>
+        <View
+          style={{
+            height: normalize(170),
+            width: normalize(280),
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: normalize(15),
+              fontFamily: Fonts.DMSans_Medium,
+              color: Colors.white,
+              marginTop: 150,
+            }}>
+            {userName}
+          </Text>
+        </View>
+
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+          <View
+            style={{
+              height: '100%',
+              marginTop: normalize(150),
+            }}>
+            <Button
+              width={'70%'}
+              height={normalize(42)}
+              borderRadius={normalize(22)}
+              fontSize={normalize(14)}
+              marginTop={normalize(20)}
+              marginBottom={normalize(15)}
+              borderColor={Colors.white}
+              textColor={Colors.white}
+              title={'Log Out'}
+              alignSelf={'center'}
+              backgroundColor={Colors.secondaryColor}
+              onPress={() => {
+                handleLogout();
+              }}
+            />
+          </View>
+        </DrawerContentScrollView>
+      </SafeAreaView>
+    );
+  };
 
   return (
     <Drawer.Navigator
-      drawerContent={DrawerContent(dispatch)}
+      drawerContent={DrawerContent}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,

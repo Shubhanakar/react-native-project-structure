@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {Text, View, TouchableOpacity, Image, Platform} from 'react-native';
-
 import {Fonts, Icons, Colors} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import MyStatusBar from '../../utils/StatusBar';
@@ -8,7 +7,6 @@ import onFacebookLogin from '../../utils/Facebook';
 import Loader from '../../utils/Loader';
 import {useDispatch, useSelector} from 'react-redux';
 import {getSignIn} from '../../redux/action/AuthAction';
-
 import Status from '../../utils/Status';
 import showErrorAlert from '../../utils/Toast';
 import {AUTH} from '../../redux/store/TypeConstants';
@@ -39,7 +37,7 @@ export default function Login(props) {
     });
   }, []);
 
-  //Making an API request from facebook API then make a server request with facebook API response
+  //Making an API request from facebook API then make a server request with facebook API response//
 
   const getUserDatafromFacebook = () => {
     onFacebookLogin()
@@ -52,7 +50,7 @@ export default function Login(props) {
       .catch(() => {});
   };
 
-  //Making an API request from google API then make a server request with google API response
+  //Making an API request from google API then make a server request with google API response//
 
   const getUserDatafromGoogle = () => {
     // const userResp = GoogleLogin();
@@ -64,7 +62,7 @@ export default function Login(props) {
     dispatch(getSignIn(obj));
   };
 
-  //function used for after successful login signing out from the google account login
+  //function used for after successful login signing out from the google account login//
 
   const signOutGoogle = async () => {
     try {
@@ -74,7 +72,7 @@ export default function Login(props) {
     }
   };
 
-  //Checking status of API response SUCCESS and FAILURE
+  //Checking status of API response SUCCESS and FAILURE//
 
   Status(
     AuthReducer.status,

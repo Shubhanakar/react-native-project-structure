@@ -11,14 +11,15 @@ import normalize from '../../utils/Dimen';
 import {Fonts, Colors, Icons} from '../../theme/theme';
 import MyStatusBar from '../../utils/StatusBar';
 import {useSelector} from 'react-redux';
-import SendSMS from 'react-native-sms';
+
 import Loader from '../../utils/Loader';
 import Modal from 'react-native-modal';
 
-import email from 'react-native-email';
 import JobSummaryComponent from '../../components/featured/JobSummaryComponent';
 import {JOB} from '../../redux/store/TypeConstants';
-import jsonToPlainText from '../../utils/jsonToPlainText';
+import {SendEmail} from '../../components/shared/SendEmail';
+import {SendTextMessage} from '../../components/shared/SendTextMessage';
+
 export default function JobSummary(props) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,33 +29,11 @@ export default function JobSummary(props) {
   //fun to share summary via email//
 
   const shareViaEmail = () => {
-    const to = [''];
-    email(to, {
-      subject: 'Drywall Summary',
-      body: jsonToPlainText(JobReducer?.jobSummary),
-      checkCanOpen: false,
-    }).catch(console.error);
+    SendEmail('Drywall Summary', JobReducer?.jobSummary);
   };
   //fun to share summary via text message/
   const shareViaTextMessage = () => {
-    SendSMS.send(
-      {
-        body: jsonToPlainText(JobReducer?.jobSummary),
-        recipients: [''],
-        successTypes: ['sent', 'queued'],
-        allowAndroidSendWithoutReadPermission: true,
-      },
-      (completed, cancelled, error) => {
-        console.log(
-          'SMS Callback: completed: ' +
-            completed +
-            ' cancelled: ' +
-            cancelled +
-            'error: ' +
-            error,
-        );
-      },
-    );
+    SendTextMessage(JobReducer?.jobSummary);
   };
 
   //fun to open share modal//

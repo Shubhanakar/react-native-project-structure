@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import Modal from 'react-native-modal';
 

@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Text,
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   FlatList,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import countryList from '../../utils/CountryList';
 import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
-import {Colors, Icons, Fonts} from '../../theme/theme';
+import {Colors, Fonts} from '../../theme/theme';
 const SelectCountryModal = props => {
   return (
     <SafeAreaView>

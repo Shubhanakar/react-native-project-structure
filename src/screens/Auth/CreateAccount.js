@@ -85,7 +85,7 @@ export default function CreateAccount(props) {
     }
   };
 
-  //Checking status of API response SUCCESS and FAILURE
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     AuthReducer.status,
     AUTH.SIGNUP_REQUEST.type,

@@ -1,26 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity, Image, Alert} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, View, TouchableOpacity, Image, Platform} from 'react-native';
 import {Colors, Icons, Fonts} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import MyStatusBar from '../../utils/StatusBar';
-import onFacebookLogin from '../../utils/Facebook';
 import {useDispatch, useSelector} from 'react-redux';
 import {socialData} from '../../redux/action/AuthAction';
 import Status from '../../utils/Status';
 import {AUTH} from '../../redux/store/TypeConstants';
 
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import onFacebookLogin from '../../utils/Facebook';
 
 export default function Signup(props) {
   const dispatch = useDispatch();
   const AuthReducer = useSelector(state => state.AuthReducer);
 
-  {
-    /* useEffect for initiate Google signin configure */
-  }
+  //useEffect for initiate Google signin configure//
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -41,29 +36,32 @@ export default function Signup(props) {
     });
   }, []);
 
-  {
-    /* Making an API request from facebook API then make a server request with facebook API response */
-  }
+  //Making an API request from facebook API then make a server request with facebook API response//
   const getUserDatafromFacebook = () => {
-    let obj = res;
-    obj.provider = 'Facebook';
-    dispatch(socialData(obj));
+    onFacebookLogin()
+      .then(res => {
+        console.log(res);
+
+        let obj = res;
+        obj.provider = 'Facebook';
+
+        dispatch(socialData(obj));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  {
-    /* Making an API request from google API then make a server request with google API response */
-  }
+  //Making an API request from google API then make a server request with google API response//
   const getUserDatafromGoogle = () => {
-    const userResp = GoogleLogin();
-    let obj = userResp;
-    obj.provider = 'Google';
-    dispatch(socialData(obj));
+    // const userResp = GoogleLogin();
+    // let obj = userResp;
+    // obj.provider = 'Google';
+    // dispatch(socialData(obj));
     props.navigation.navigate('CreateAccount');
   };
 
-  {
-    /* function used for after successful login signing out from the google account login */
-  }
+  //function used for after successful login signing out from the google account login//
   const signOutGoogle = async () => {
     try {
       await GoogleSignin.signOut();
@@ -71,9 +69,7 @@ export default function Signup(props) {
       console.error(error);
     }
   };
-  {
-    /* Checking status of API response SUCCESS and FAILURE */
-  }
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     AuthReducer.status,
     AUTH.SOCIAL_DATA_REQUEST.type,
