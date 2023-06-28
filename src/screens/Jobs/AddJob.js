@@ -305,9 +305,7 @@ export default function AddJob(props) {
                       marginTop: 15,
                       height: normalize(38),
                     }}
-                    onChangeText={(masked, unmasked) => {
-                      handleChange('phoneNumber');
-                    }}
+                    onChangeText={handleChange('phoneNumber')}
                     mask={Masks.USA_PHONE}
                   />
                   <TextInput
