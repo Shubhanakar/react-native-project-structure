@@ -23,6 +23,7 @@ export const Colors = {
   tabIconSelected: '#D47F2B',
   tabIconDeSelected: '#6B6B6B',
   drawerBackgroundColor: '#5D5D5D',
+  textInputBorderColor: '#CCCCCC',
 };
 
 export const Icons = {

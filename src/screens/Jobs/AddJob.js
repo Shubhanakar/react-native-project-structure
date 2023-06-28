@@ -40,19 +40,17 @@ export default function AddJob(props) {
   //fun for API call for save job data//
   const addJob = data => {
     let contactInfo = {
-      phoneNumber: data.phoneNumber ? data.phoneNumber : null,
-      emailAddress: data.email ? data.email : null,
+      phoneNumber: data.phoneNumber || null,
+      emailAddress: data.email || null,
     };
 
     let obj = {
       jobName: data.jobName,
-      contractorName: data.contractorName ? data.contractorName : null,
+      contractorName: data.contractorName || null,
       contactInfo: contactInfo,
-      location: data.location ? data.location : null,
-      lotNumberOrSubDivision: data.lotNumberOrSubDivision
-        ? data.lotNumberOrSubDivision
-        : null,
-      date: data.date ? data.date : null,
+      location: data.location || null,
+      lotNumberOrSubDivision: data.lotNumberOrSubDivision || null,
+      date: data.date,
     };
 
     dispatch(createJob(obj));
@@ -123,12 +121,12 @@ export default function AddJob(props) {
             {({
               handleChange,
               handleBlur,
-              handleSubmit,
               values,
               errors,
               touched,
               setFieldTouched,
               setFieldValue,
+              handleSubmit,
             }) => (
               <>
                 <View>
@@ -151,8 +149,12 @@ export default function AddJob(props) {
                     placeholderTextColor={'#CCCCCC'}
                     value={values.jobName}
                     onChangeText={handleChange('jobName')}
-                    onBlur={setFieldTouched('jobName')}
-                    borderColor={'#CCCCCC'}
+                    onBlur={() => setFieldTouched('jobName')}
+                    borderColor={
+                      touched.jobName && errors.jobName
+                        ? '#FF0D10'
+                        : Colors.borderColor
+                    }
                     returnKeyType={'next'}
                   />
                 </View>
@@ -177,7 +179,7 @@ export default function AddJob(props) {
                     placeholderTextColor={'#CCCCCC'}
                     value={values.contractorName}
                     onChangeText={handleChange('contractorName')}
-                    onBlur={setFieldTouched('contractorName')}
+                    onBlur={() => setFieldTouched('contractorName')}
                     borderColor={'#CCCCCC'}
                   />
                 </View>
@@ -202,7 +204,7 @@ export default function AddJob(props) {
                     placeholderTextColor={'#CCCCCC'}
                     value={values.location}
                     onChangeText={handleChange('location')}
-                    onBlur={setFieldTouched('location')}
+                    onBlur={() => setFieldTouched('location')}
                     borderColor={'#CCCCCC'}
                   />
                 </View>
@@ -227,7 +229,6 @@ export default function AddJob(props) {
                     placeholderTextColor={'#CCCCCC'}
                     value={values.lotNumberOrSubDivision}
                     onChangeText={handleChange('lotNumberOrSubDivision')}
-                    onBlur={setFieldTouched('lotNumberOrSubDivision')}
                     borderColor={'#CCCCCC'}
                   />
                 </View>
@@ -249,7 +250,10 @@ export default function AddJob(props) {
                     alignSelf: 'center',
                     borderWidth: 1,
                     marginTop: normalize(5),
-                    borderColor: '#CCCCCC',
+                    borderColor:
+                      touched.date && errors.date
+                        ? '#FF0D10'
+                        : Colors.textInputBorderColor,
                     justifyContent: 'space-between',
                     flexDirection: 'row',
                   }}>
@@ -303,9 +307,6 @@ export default function AddJob(props) {
                     }}
                     onChangeText={(masked, unmasked) => {
                       handleChange('phoneNumber');
-
-                      console.log(masked); // (99) 99999-9999
-                      console.log(unmasked); // 99999999999
                     }}
                     mask={Masks.USA_PHONE}
                   />
@@ -334,9 +335,7 @@ export default function AddJob(props) {
                   title={'Create New Job'}
                   alignSelf={'center'}
                   backgroundColor={Colors.secondaryColor}
-                  onPress={() => {
-                    addJob();
-                  }}
+                  onPress={handleSubmit}
                 />
 
                 <DateTimePickerModal

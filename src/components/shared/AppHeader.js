@@ -36,7 +36,6 @@ export default function AppHeader(props) {
             style={{
               height: normalize(25),
               width: normalize(25),
-
               marginLeft: normalize(15),
               marginTop: normalize(12),
             }}

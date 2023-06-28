@@ -23,7 +23,7 @@ function* getTokenAction() {
   try {
     let token = yield call(EncryptedStorage.getItem, constants.TOKEN);
     console.log('Getting Token from storage.', token);
-    if (token != null && token !== '') {
+    if (token != null && token?.length > 0) {
       console.log('Getting Token from storage.', token);
       token = JSON.parse(token);
       yield put({

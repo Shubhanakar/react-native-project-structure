@@ -159,10 +159,12 @@ JobCardComponent.propTypes = {
   data: PropTypes.array,
   refreshing: PropTypes.bool,
   onRefreshList: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 JobCardComponent.defaultProps = {
   data: [],
   refreshing: false,
   onRefreshList: null,
+  onDelete: null,
 };

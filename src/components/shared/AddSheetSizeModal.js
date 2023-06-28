@@ -208,7 +208,7 @@ const AddSheetSizeModal = props => {
                   style={{
                     marginLeft: normalize(10),
                   }}>
-                  {sqFeet !== '' ? sqFeet : 'Sq ft per sheet...'}
+                  {sqFeet.lenght > 0 ? sqFeet : 'Sq ft per sheet...'}
                 </Text>
               </View>
             ) : (

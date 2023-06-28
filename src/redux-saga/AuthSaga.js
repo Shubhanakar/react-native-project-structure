@@ -6,28 +6,23 @@ import {POST, getToken} from './setup/method';
 
 function* getSignin(action) {
   try {
-    // let response = yield call(POST, 'auth/login-sso', action.payload, '');
+    let response = yield call(POST, 'auth/login-sso', action.payload, '');
     yield put({
       type: AUTH.LOGIN_SUCCESS.type,
       data: {
-        [AUTH.LOGIN_SUCCESS.value]: 'Sccessfully logged in',
+        [AUTH.LOGIN_SUCCESS.value]: response,
+        signinmessage: response.message,
       },
     });
     yield put({
       type: TOKEN.SET_TOKEN_SUCCESS.type,
-      data: {
-        [TOKEN.SET_TOKEN_SUCCESS.value]:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NzQ5ZTdlYS0zMTNiLTQ1MTYtODgwOS1mNGFiMzk1NzUyZmMiLCJ2YWxpZFRpbGwiOiIyMDIzLTA5LTE3VDAwOjA4OjU4LjU4MDA5Ni0wNjowMCIsImlwQWRkcmVzcyI6IjQ5LjM3LjguMTY2In0.Wu6NQlh1uvBcnQnE1xbQe6YoVN69EPh9t_DJ_zjiuQQ',
-      },
+      data: {[TOKEN.SET_TOKEN_SUCCESS.value]: response.token},
     });
 
     yield call(
       EncryptedStorage.setItem,
       constants.TOKEN,
-      JSON.stringify({
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NzQ5ZTdlYS0zMTNiLTQ1MTYtODgwOS1mNGFiMzk1NzUyZmMiLCJ2YWxpZFRpbGwiOiIyMDIzLTA5LTE3VDAwOjA4OjU4LjU4MDA5Ni0wNjowMCIsImlwQWRkcmVzcyI6IjQ5LjM3LjguMTY2In0.Wu6NQlh1uvBcnQnE1xbQe6YoVN69EPh9t_DJ_zjiuQQ',
-      }),
+      JSON.stringify({token: response.token}),
     );
   } catch (error) {
     yield put({

@@ -272,7 +272,7 @@ export default function AddJobArea(props) {
     });
 
     let filteredSupply = AddSupplyReducer.filter(item => {
-      return item.quantity !== 0 && item.supplyId !== '';
+      return item.quantity !== 0 && item.supplyId.length === 0;
     }).map(item => {
       return {supplyId: item.supplyId, quantity: item.quantity};
     });
@@ -282,7 +282,7 @@ export default function AddJobArea(props) {
     obj.jobId = JobReducer?.singleJobDetailsReq?.jobId;
     obj.job_area_id = JobReducer?.selectedJobArea?.jobAreaId;
     obj.jobAreaName =
-      jobAreaName !== ''
+      jobAreaName.length > 0
         ? jobAreaName
         : JobReducer?.selectedJobArea?.jobAreaName;
     obj.sheetThickness = halfInch === true ? "1/2''" : "5/8''";
@@ -313,7 +313,7 @@ export default function AddJobArea(props) {
     setCalculateTotalSquareFeet(totalsq);
   };
 
-  //fun to increment and decrement quantity//
+  //fun to increment and decrement quantity of 3 different sheets//
   const addDrywallSheets = (incrementData, itemIndex, actionType) => {
     let sheets = [];
 
