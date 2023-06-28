@@ -110,7 +110,7 @@ export default function RegularSheetList(props) {
         </View>
       )}
       keyExtractor={(item, index) => {
-        return index.toString();
+        return item.sheetId;
       }}
     />
   );
@@ -118,8 +118,10 @@ export default function RegularSheetList(props) {
 
 RegularSheetList.propTypes = {
   dryWallSheets: PropTypes.array,
+  onPress: PropTypes.func,
 };
 
 RegularSheetList.defaultProps = {
   dryWallSheets: [],
+  onPress: null,
 };

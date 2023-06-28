@@ -88,7 +88,7 @@ export default function ManageForms(props) {
       setModalVisible(!modalVisible);
     }
   };
-  // Checking status of API response SUCCESS and FAILURE
+  // Checking status of API response SUCCESS and FAILURE//
   Status(
     JobReducer.status,
     JOB.DELETE_SHEET_REQUEST.type,
@@ -255,7 +255,7 @@ export default function ManageForms(props) {
                 </View>
               )}
               keyExtractor={(item, index) => {
-                return index.toString();
+                return item.sheetId;
               }}
             />
           </View>
@@ -331,7 +331,7 @@ export default function ManageForms(props) {
                 </View>
               )}
               keyExtractor={(item, index) => {
-                return index.toString();
+                return item.sheetId;
               }}
             />
           </View>
@@ -408,7 +408,7 @@ export default function ManageForms(props) {
                 </View>
               )}
               keyExtractor={(item, index) => {
-                return index.toString();
+                return item.sheetId;
               }}
             />
           </View>
@@ -530,7 +530,7 @@ export default function ManageForms(props) {
                 </View>
               )}
               keyExtractor={(item, index) => {
-                return index.toString();
+                return item.sheetId;
               }}
             />
           </View>

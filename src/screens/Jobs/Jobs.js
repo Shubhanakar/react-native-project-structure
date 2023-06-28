@@ -46,7 +46,6 @@ export default function Jobs(props) {
 
   const dispatch = useDispatch();
   const ProfileReducer = useSelector(state => state.ProfileReducer);
-
   const JobReducer = useSelector(state => state.JobReducer);
 
   //useEffect API call//
@@ -67,21 +66,21 @@ export default function Jobs(props) {
     setDeleteModalVisible(false);
   };
 
-  // API call to filter jo list in chronological order
+  // API call to filter jo list in chronological order//
   const chronologicalOrder = order => {
     setJobDate(false);
     setLastEdited(!lastEdited);
     dispatch(filterJobs({order: order, search}));
     setModalVisible(false);
   };
-  // API call to filter jo list in alphabetical order
+  // API call to filter jo list in alphabetical order//
   const alphabeticalOrder = order => {
     setZtoA(false);
     setAtoZ(!aToz);
     dispatch(filterJobs({order: order, search}));
     setModalVisible(false);
   };
-  // open filter modal
+  // open filter modal//
   function openModal() {
     return (
       <SafeAreaView>
@@ -333,7 +332,7 @@ export default function Jobs(props) {
       showErrorAlert(JobReducer?.error?.response?.data?.message);
     },
   );
-  // function for pull to refresh
+  // function for pull to refresh//
   const onRefreshList = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {

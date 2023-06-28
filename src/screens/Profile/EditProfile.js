@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {Text, View, TouchableOpacity, Image, ScrollView} from 'react-native';
-
 import {Fonts, Icons, Colors} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import MyStatusBar from '../../utils/StatusBar';

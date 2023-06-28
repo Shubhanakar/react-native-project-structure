@@ -72,7 +72,7 @@ export default function JobSummaryComponent(props) {
               </View>
             )}
             keyExtractor={(item, index) => {
-              return index.toString();
+              return item.sheetId;
             }}
           />
         </View>
@@ -139,7 +139,7 @@ export default function JobSummaryComponent(props) {
               </View>
             )}
             keyExtractor={(item, index) => {
-              return index.toString();
+              return item.sheetId;
             }}
           />
         </View>
@@ -206,7 +206,7 @@ export default function JobSummaryComponent(props) {
               </View>
             )}
             keyExtractor={(item, index) => {
-              return index.toString();
+              return item.sheetId;
             }}
           />
         </View>

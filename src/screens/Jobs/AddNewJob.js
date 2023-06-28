@@ -24,6 +24,7 @@ export default function AddNewJob(props) {
   const dispatch = useDispatch();
   const JobReducer = useSelector(state => state.JobReducer);
 
+  // useEffect for fetch job area by job area id //
   useEffect(() => {
     dispatch(getJobAreaById(JobReducer?.selectedJobArea?.jobAreaId));
   }, [JobReducer?.selectedJobArea?.jobAreaId, dispatch]);

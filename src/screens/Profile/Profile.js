@@ -20,7 +20,7 @@ export default function Profile(props) {
 
   const ProfileReducer = useSelector(state => state.ProfileReducer); // collecting user profile data from ProfileReducer
 
-  //useEffect use for set profile data to the state variable
+  //useEffect use for set profile data to the state variable//
 
   useEffect(() => {
     if (ProfileReducer?.profileDetails) {

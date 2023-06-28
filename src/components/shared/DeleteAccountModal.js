@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, SafeAreaView, TouchableOpacity, Image} from 'react-native';
 import Modal from 'react-native-modal';
 
@@ -6,14 +6,14 @@ import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 import Button from '../../components/shared/Button';
 import {Colors, Icons, Fonts} from '../../theme/theme';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {deleteAccountReq} from '../../redux/action/ProfileAction';
 const DeleteConfirmationModal = props => {
   const dispatch = useDispatch();
 
   const deleteAccount = () => {
-    setModalVisible(false);
     dispatch(deleteAccountReq());
+    props.closeModal();
   };
   return (
     <SafeAreaView>

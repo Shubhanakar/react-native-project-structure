@@ -110,7 +110,7 @@ export default function FiftyFourInchSheetList(props) {
         </View>
       )}
       keyExtractor={(item, index) => {
-        return index.toString();
+        return item.sheetId;
       }}
     />
   );

@@ -46,7 +46,7 @@ const AddSheetSizeModal = props => {
   const sqCalculateArea = data => {
     setLenght(data);
 
-    if (!data) {
+    if (data.length === 0) {
       setSqFeet('');
     }
 
@@ -273,6 +273,7 @@ AddSheetSizeModal.propTypes = {
   onChangeText: PropTypes.func,
   value: PropTypes.any,
   closeModal: PropTypes.func,
+  createSheetSize: PropTypes.func,
 };
 
 AddSheetSizeModal.defaultProps = {
@@ -282,6 +283,7 @@ AddSheetSizeModal.defaultProps = {
   onChangeText: null,
   value: null,
   closeModal: null,
+  createSheetSize: null,
 };
 
 export default AddSheetSizeModal;

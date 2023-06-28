@@ -2,6 +2,8 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+
 import Login from '../screens/Auth/Login';
 import Welcome from '../screens/Auth/Welcome';
 import Signup from '../screens/Auth/Signup';
@@ -16,8 +18,6 @@ import KeepJobs from '../screens/Settings/KeepJobs';
 import ManageForms from '../screens/Settings/ManageForms';
 import ViewJob from '../screens/Jobs/ViewJob';
 import EditJob from '../screens/Jobs/EditJob';
-import {useSelector} from 'react-redux';
-
 import DrawerNavigator from './DrawerNavigator';
 import AddNewJob from '../screens/Jobs/AddNewJob';
 import JobSummary from '../screens/Jobs/JobSummary';

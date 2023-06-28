@@ -110,7 +110,7 @@ export default function OtherSheetList(props) {
         </View>
       )}
       keyExtractor={(item, index) => {
-        return index.toString();
+        return item.sheetId;
       }}
     />
   );
@@ -118,8 +118,10 @@ export default function OtherSheetList(props) {
 
 OtherSheetList.propTypes = {
   dryWall54InchSheets: PropTypes.array,
+  onPress: PropTypes.func,
 };
 
 OtherSheetList.defaultProps = {
   dryWall54InchSheets: [],
+  onPress: null,
 };

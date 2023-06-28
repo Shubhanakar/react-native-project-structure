@@ -11,10 +11,8 @@ import normalize from '../../utils/Dimen';
 import {Fonts, Colors, Icons} from '../../theme/theme';
 import MyStatusBar from '../../utils/StatusBar';
 import {useSelector} from 'react-redux';
-
 import Loader from '../../utils/Loader';
 import Modal from 'react-native-modal';
-
 import JobSummaryComponent from '../../components/featured/JobSummaryComponent';
 import {JOB} from '../../redux/store/TypeConstants';
 import {SendEmail} from '../../components/shared/SendEmail';

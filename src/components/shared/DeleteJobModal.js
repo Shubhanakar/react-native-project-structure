@@ -89,6 +89,7 @@ DeleteJobModal.propTypes = {
 
 DeleteJobModal.defaultProps = {
   modalVisible: false,
+  closeModal: null,
 };
 
 export default DeleteJobModal;

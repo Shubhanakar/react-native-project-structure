@@ -103,8 +103,10 @@ export default function AppHeader(props) {
 }
 AppHeader.propTypes = {
   marginTop: PropTypes.number,
+  onPress: PropTypes.func,
 };
 
 AppHeader.defaultProps = {
   marginTop: 0,
+  onPress: null,
 };

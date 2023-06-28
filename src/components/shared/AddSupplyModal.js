@@ -105,11 +105,13 @@ const AddSupplyModal = props => {
 AddSupplyModal.propTypes = {
   modalVisible: PropTypes.bool,
   closeModal: PropTypes.func,
+  createSupply: PropTypes.func,
 };
 
 AddSupplyModal.defaultProps = {
   modalVisible: false,
   closeModal: null,
+  createSupply: null,
 };
 
 export default AddSupplyModal;

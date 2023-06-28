@@ -132,6 +132,7 @@ const DrawerNavigator = () => {
         component={Jobs}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerLabel: () => (
             <Text
               style={{
@@ -142,6 +143,7 @@ const DrawerNavigator = () => {
               Jobs
             </Text>
           ),
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerIcon: () => (
             <Image
               resizeMode="contain"
@@ -157,6 +159,7 @@ const DrawerNavigator = () => {
         component={Profile}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerLabel: () => (
             <Text
               style={{
@@ -167,6 +170,7 @@ const DrawerNavigator = () => {
               Profile
             </Text>
           ),
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerIcon: () => (
             <Image
               resizeMode="contain"
@@ -182,6 +186,7 @@ const DrawerNavigator = () => {
         component={Settings}
         options={{
           drawerActiveBackgroundColor: '#3C91E6',
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerLabel: () => (
             <Text
               style={{
@@ -193,6 +198,7 @@ const DrawerNavigator = () => {
             </Text>
           ),
           title: 'Settings',
+          // eslint-disable-next-line react/no-unstable-nested-components
           drawerIcon: () => (
             <Image
               resizeMode="contain"

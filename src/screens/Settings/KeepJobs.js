@@ -19,7 +19,7 @@ export default function KeepJobs(props) {
   const JobReducer = useSelector(state => state.JobReducer);
   const ProfileReducer = useSelector(state => state.ProfileReducer);
 
-  //useEffect fetching data from reducer
+  //useEffect fetching data from reducer//
   useEffect(() => {
     if (ProfileReducer?.profileDetails?.userSettings?.jobLifespan === 365) {
       setYear(true);
@@ -42,7 +42,7 @@ export default function KeepJobs(props) {
     }
   }, [ProfileReducer?.profileDetails?.userSettings]);
 
-  //Checking status of API response SUCCESS and FAILURE
+  //Checking status of API response SUCCESS and FAILURE//
   Status(
     JobReducer.status,
     JOB.KEEP_JOB_REQUEST.type,
@@ -57,7 +57,7 @@ export default function KeepJobs(props) {
     },
   );
 
-  //fun for call the API to save the data
+  //fun for call the API to save the data//
   const saveJobSettings = type => {
     dispatch(keepJobReq({jobLifespan: type}));
   };

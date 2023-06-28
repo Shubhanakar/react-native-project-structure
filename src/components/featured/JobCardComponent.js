@@ -129,7 +129,7 @@ export default function JobCardComponent(props) {
           </Swipeable>
         )}
         keyExtractor={(item, index) => {
-          return index.toString();
+          return item.jobId;
         }}
       />
     </View>
@@ -158,9 +158,11 @@ export default function JobCardComponent(props) {
 JobCardComponent.propTypes = {
   data: PropTypes.array,
   refreshing: PropTypes.bool,
+  onRefreshList: PropTypes.func,
 };
 
 JobCardComponent.defaultProps = {
   data: [],
   refreshing: false,
+  onRefreshList: null,
 };

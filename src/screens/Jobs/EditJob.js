@@ -8,7 +8,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import TextInput from '../../components/shared/TextInput';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-
 import {updateJob, getSingleJobDetails} from '../../redux/action/JobAction';
 import Loader from '../../utils/Loader';
 import {JOB} from '../../redux/store/TypeConstants';
@@ -36,12 +35,12 @@ export default function EditJob(props) {
     lotNumberOrSubDivision: '',
   };
 
-  //fun for hide date picker
+  //fun for hide date picker//
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  //useEffect for getting the job data
+  //useEffect for getting the job data//
 
   useEffect(() => {
     formikRef?.current?.setFieldValue(
@@ -96,7 +95,7 @@ export default function EditJob(props) {
     dispatch(updateJob(obj));
   };
 
-  //Checking status of API response SUCCESS and FAILURE
+  //Checking status of API response SUCCESS and FAILURE//
 
   Status(
     JobReducer.status,

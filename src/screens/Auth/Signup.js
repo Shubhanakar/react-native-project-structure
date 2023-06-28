@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {socialData} from '../../redux/action/AuthAction';
 import Status from '../../utils/Status';
 import {AUTH} from '../../redux/store/TypeConstants';
-
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import onFacebookLogin from '../../utils/Facebook';
 
